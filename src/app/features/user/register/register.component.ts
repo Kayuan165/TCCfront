@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
+import { User } from '../../../shared/Interfaces/user.interface';
 
 @Component({
   selector: 'app-register',
@@ -22,31 +23,39 @@ export class RegisterComponent {
   user = {
     name: '',
     rg: '',
-    photo: null as File | null,
+    photo: null,
   };
-
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      rg: ['', [Validators.required, Validators.minLength(9)]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      rg: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      photo: [null, Validators.required],
     });
   }
 
-  onFileSelected(event: Event): void {
+  onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      console.log('Arquivo selecionado', file.name);
-      this.user.photo = file;
+    if (input?.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+      this.registerForm.patchValue({ photo: this.selectedFile.name });
     }
   }
+  onSubmit(): void {
+    console.log('Formulário:', this.registerForm.value);
+    console.log('Valid:', this.registerForm.valid);
+    console.log('Errores:', this.registerForm.errors);
 
-  onSubmit() {
     if (this.registerForm.valid && this.selectedFile) {
+      const user: User = {
+        name: this.registerForm.get('name')?.value,
+        rg: this.registerForm.get('rg')?.value,
+        photo: this.selectedFile,
+      };
+
       const formData = new FormData();
-      formData.append('name', this.registerForm.get('name')?.value);
-      formData.append('rg', this.registerForm.get('rg')?.value);
-      formData.append('photo', this.selectedFile);
+      formData.append('name', user.name);
+      formData.append('rg', user.rg);
+      formData.append('photo', user.photo);
 
       this.userService.register(formData).subscribe(
         (response) => {
@@ -56,6 +65,9 @@ export class RegisterComponent {
           console.error('Erro ao cadastrar usuário', error);
         }
       );
+    } else {
+      console.error('Formulário inválido ou arquivo não selecionado');
+      console.log(this.registerForm.errors);
     }
   }
 }
