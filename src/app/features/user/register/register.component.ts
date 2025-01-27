@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,14 +9,16 @@ import {
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../shared/Interfaces/user.interface';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, ToastComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  @ViewChild('toast') toast!: ToastComponent;
   registerForm: FormGroup;
   selectedFile: File | null = null;
 
@@ -29,6 +31,7 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       rg: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      email: ['', [Validators.required, Validators.minLength(10)]],
       photo: [null, Validators.required],
     });
   }
@@ -43,31 +46,35 @@ export class RegisterComponent {
   onSubmit(): void {
     console.log('Formulário:', this.registerForm.value);
     console.log('Valid:', this.registerForm.valid);
-    console.log('Errores:', this.registerForm.errors);
 
     if (this.registerForm.valid && this.selectedFile) {
       const user: User = {
         name: this.registerForm.get('name')?.value,
         rg: this.registerForm.get('rg')?.value,
+        email: this.registerForm.get('email')?.value,
         photo: this.selectedFile,
       };
 
       const formData = new FormData();
       formData.append('name', user.name);
       formData.append('rg', user.rg);
+      formData.append('email', user.email);
       formData.append('photo', user.photo);
 
       this.userService.register(formData).subscribe(
-        (response) => {
-          console.log('Usuário cadastrado com sucesso', response);
+        () => {
+          this.toast.showToast('Visitante cadastrado com sucesso!', 'sucess');
         },
         (error) => {
-          console.error('Erro ao cadastrar usuário', error);
+          this.toast.showToast(
+            'Erro ao cadastrar visitante. Tente novamente',
+            'error'
+          );
+          console.error(error);
         }
       );
     } else {
-      console.error('Formulário inválido ou arquivo não selecionado');
-      console.log(this.registerForm.errors);
+      this.toast.showToast('Preencha todos os campos corretamente', 'info');
     }
   }
 }
