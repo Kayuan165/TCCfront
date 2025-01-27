@@ -1,6 +1,6 @@
 <app-toast #toast></app-toast>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div class="form-container">
+<div class="form-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <h1>Cadastro de Visitantes</h1>
 
     <div class="form-group">
@@ -9,7 +9,7 @@
         id="name"
         type="text"
         formControlName="name"
-        placeholder="Digite o nome"
+        placeholder="Digite o nome completo"
       />
       <div
         *ngIf="
@@ -31,7 +31,7 @@
         id="rg"
         type="text"
         formControlName="rg"
-        placeholder="Digite o RG"
+        placeholder="Digite o RG ou CPF"
       />
       <div
         *ngIf="
@@ -71,8 +71,12 @@
     </div>
 
     <div class="form-group">
-      <label for="photo">Foto:</label>
-      <input id="photo" type="file" (change)="onFileSelected($event)" />
+      <label for="photo">Foto para a Identificação:</label>
+      <div class="file-upload">
+        <label for="photo">Selecionar Arquivo</label>
+        <input id="photo" type="file" (change)="onFileSelected($event)" />
+        <span>{{ selectedFile?.name }}</span>
+      </div>
       <div *ngIf="!selectedFile && registerForm.get('photo')?.touched">
         <small>Foto é obrigatória</small>
       </div>
@@ -81,5 +85,5 @@
     <button type="submit" [disabled]="registerForm.invalid || !selectedFile">
       Cadastrar
     </button>
-  </div>
-</form>
+  </form>
+</div>

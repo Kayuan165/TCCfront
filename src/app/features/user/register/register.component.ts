@@ -31,7 +31,10 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       rg: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      email: ['', [Validators.required, Validators.minLength(10)]],
+      email: [
+        '',
+        [Validators.required, Validators.minLength(10), Validators.email],
+      ],
       photo: [null, Validators.required],
     });
   }
@@ -41,6 +44,8 @@ export class RegisterComponent {
     if (input?.files && input.files[0]) {
       this.selectedFile = input.files[0];
       this.registerForm.patchValue({ photo: this.selectedFile.name });
+    } else {
+      this.selectedFile = null;
     }
   }
   onSubmit(): void {
@@ -64,10 +69,12 @@ export class RegisterComponent {
       this.userService.register(formData).subscribe(
         () => {
           this.toast.showToast('Visitante cadastrado com sucesso!', 'sucess');
+
+          this.registerForm.reset();
         },
         (error) => {
           this.toast.showToast(
-            'Erro ao cadastrar visitante. Tente novamente',
+            'Erro ao cadastrar visitante. Valide as informações',
             'error'
           );
           console.error(error);

@@ -1,79 +1,145 @@
+/* container para centralizar o formulário */
 .form-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #7606c6, #1b0432);
-  color: #fff;
-  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to top, #09050c, #3d0154, #6a01a3cc);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* card do form */
+form {
+  width: 400px;
+  padding: 25px 35px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* titulo */
+form h1 {
   text-align: center;
+  color: #6e00b8;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
 
-  h1 {
-    font-size: 2.5rem;
-    font-style: italic;
-    font-family: 'Courier New', Courier, monospace;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  }
+/* labels */
+form label {
+  font-size: 1rem;
+  color: #4e007f;
+  margin-bottom: 5px;
+}
 
-  .form-group {
-    margin-bottom: 1.5rem;
-    width: 100%;
-    max-width: 400px;
+/* inputs */
+form input[type="text"],
+form input[type="email"],
+form input[type="file"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  outline: none;
+  font-size: 0.9rem;
+  transition: border-color 0.3s;
+}
 
-    label {
-      font-size: 1.1rem;
-      font-weight: bold;
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #fff;
-    }
+form input[type="text"]:focus,
+form input[type="email"]:focus {
+  border: 1px solid #6e00b8;
+}
 
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #fff;
-      border-radius: 8px;
-      font-size: 1rem;
-      color: #333;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+/* selecionar arquivo */
+form input[type="file"] {
+  display: none;
+}
 
-      &:focus {
-        outline: none;
-        border-color: #6a0dad;
-        box-shadow: 0 0 8px #6a0dad;
-      }
-    }
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
 
-    small {
-      color: #ffcccb;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-      display: block;
-    }
-  }
+.file-upload label {
+  background: #6e00b8;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
 
-  button {
-    background-color: #4b0082;
-    color: #fff;
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
+.file-upload label:hover {
+  background: #4e007f;
+}
 
-    &:hover {
-      background-color: #6a0dad;
-    }
+.file-upload span {
+  font-size: 0.85rem;
+  color: #555;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    &:disabled {
-      background-color: #bbb;
-      cursor: not-allowed;
-    }
-  }
+
+form input[type="file"]::before {
+  content: "Selecionar Arquivo";
+  display: inline-block;
+  font-size: 0.9rem;
+  color: white;
+  background: #6e00b8;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form input[type="file"]:hover::before {
+  background: #4e007f;
+}
+
+form input[type="file"]::after {
+  content: "Nenhum arquivo escolhido";
+  font-size: 0.8rem;
+  color: #777;
+  margin-left: 10px;
+}
+
+/* botao */
+form button {
+  width: 100%;
+  padding: 12px 15px;
+  background: #6e00b8;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+form button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+form button:hover:not(:disabled) {
+  background: #4e007f;
+  transform: scale(1.05);
+}
+
+/* mensagem de erro */
+form small {
+  color: red;
+  font-size: 0.8rem;
 }
