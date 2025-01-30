@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../shared/Interfaces/user.interface';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';

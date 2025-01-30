@@ -1,0 +1,12 @@
+<div class="visitor-card">
+  <img [src]="visitor.photo_path" alt="Foto do visitante">
+  <div class="info">
+    <h3>{{ visitor.name }}</h3>
+    <p>RG: {{ visitor.rg }}</p>
+    <p>Email: {{ visitor.email }}</p>
+  </div>
+  <div class="actions">
+    <button (click)="onEdit()">✏️ Editar</button>
+    <button (click)="onDelete()">🗑 Excluir</button>
+  </div>
+</div>

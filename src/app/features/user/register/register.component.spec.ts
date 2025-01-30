@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterComponent } from './register.component';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../../shared/services/user.service';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
 import { of, throwError } from 'rxjs';
 

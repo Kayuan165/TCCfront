@@ -10,7 +10,14 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'create',
+    redirectTo: 'edit',
     pathMatch: 'full',
+  },
+  {
+    path: 'edit',
+    loadComponent: () =>
+      import('./features/user/edit/edit.component').then(
+        (m) => m.EditComponent
+      ),
   },
 ];
