@@ -54,6 +54,7 @@ export class RegisterComponent {
 
     if (this.registerForm.valid && this.selectedFile) {
       const user: User = {
+        id: this.registerForm.get('id')?.value,
         name: this.registerForm.get('name')?.value,
         rg: this.registerForm.get('rg')?.value,
         email: this.registerForm.get('email')?.value,

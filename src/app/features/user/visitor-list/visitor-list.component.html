@@ -1,0 +1,15 @@
+<div class="visitor-list">
+  <h2>Visitantes</h2>
+
+  <div *ngFor="let visitor of visitors" class="visitor-card">
+    <img [src]="visitor.photo" alt="Foto do Visitante" />
+    <p><strong>Nome:</strong> {{ visitor.name }}</p>
+    <p><strong>RG:</strong>{{ visitor.rg }}</p>
+    <p><strong>Email:</strong>{{ visitor.email }}</p>
+
+    <button (click)="editVisitor(visitor)">Editar</button>
+    <button (click)="deleteVisitor(visitor.id)">Excluir</button>
+  </div>
+
+  <app-edit *ngIf="selectedVisitor" [visitor]="selectedVisitor"></app-edit>
+</div>

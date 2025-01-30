@@ -1,1 +1,17 @@
-<p>edit works!</p>
+<div class="edit-visitor">
+  <h2>Editar Visitante</h2>
+
+  <label>Nome:</label>
+  <input type="text" [(ngModel)]="visitor.name" />
+
+  <label>RG:</label>
+  <input type="text" [(ngModel)]="visitor.rg" />
+
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="visitor.email" />
+
+  <label>Foto:</label>
+  <input type="file" (change)="onFileSelected($event)" />
+
+  <button (click)="updateVisitor()">Salvar Alterações</button>
+</div>
