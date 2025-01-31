@@ -24,10 +24,10 @@ export class UserService {
   }
 
   update(id: number, data: FormData): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}`, data);
+    return this.http.patch(`${this.apiUrl}/update/${id}`, data);
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 }

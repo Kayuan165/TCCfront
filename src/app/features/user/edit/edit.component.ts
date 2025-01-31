@@ -26,18 +26,5 @@ export class EditComponent {
     this.selectedFile = event.target.files[0];
   }
 
-  updateVisitor() {
-    const formData = new FormData();
-    formData.append('name', this.visitor.name);
-    formData.append('rg', this.visitor.rg);
-    formData.append('email', this.visitor.email);
 
-    if (this.selectedFile) {
-      formData.append('photo', this.selectedFile);
-    }
-
-    this.userService.update(this.visitor.id, formData).subscribe(() => {
-      alert('Usuário atualizado com sucesso!');
-    });
-  }
 }

@@ -14,8 +14,6 @@ export class ToastComponent {
   public show: boolean = false;
   public type: 'sucess' | 'error' | 'info' = 'info';
 
-  constructor() {}
-
   ngOnInit(): void {}
 
   showToast(
