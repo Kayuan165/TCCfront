@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { User } from '../../Interfaces/user.interface';
 
 @Component({
   selector: 'app-visitor-card',
@@ -7,15 +8,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './visitor-card.component.scss',
 })
 export class VisitorCardComponent {
-  @Input() visitor: any;
-  @Output() edit = new EventEmitter();
-  @Output() delete = new EventEmitter();
+  @Input() visitor!: User;
+  @Output() edit = new EventEmitter<User>();
+  @Output() delete = new EventEmitter<number>();
 
   onEdit() {
     this.edit.emit(this.visitor);
   }
 
   onDelete() {
-    this.edit.emit(this.visitor.id);
+    this.delete.emit(this.visitor.id);
   }
 }

@@ -18,7 +18,7 @@ import { ToastComponent } from '../../../shared/components/toast/toast.component
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  @ViewChild('toast') toast!: ToastComponent;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
   registerForm: FormGroup;
   selectedFile: File | null = null;
 
@@ -69,20 +69,21 @@ export class RegisterComponent {
 
       this.userService.register(formData).subscribe(
         () => {
-          this.toast.showToast('Visitante cadastrado com sucesso!', 'sucess');
+          this.toast.toastService.showSucess(
+            'Visitante cadastrado com sucesso!'
+          );
 
           this.registerForm.reset();
         },
         (error) => {
-          this.toast.showToast(
-            'Erro ao cadastrar visitante. Valide as informações',
-            'error'
+          this.toast.toastService.showError(
+            'Erro ao cadastrar visitante. Valide as informações'
           );
           console.error(error);
         }
       );
     } else {
-      this.toast.showToast('Preencha todos os campos corretamente', 'info');
+      this.toast.toastService.showInfo('Preencha todos os campos corretamente');
     }
   }
 }

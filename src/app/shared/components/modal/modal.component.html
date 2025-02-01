@@ -1,10 +1,13 @@
-<div class="modal-backdrop" *ngIf="isVisible">
+<div *ngIf="isOpen" class="modal-overlay">
   <div class="modal">
-    <h2>{{ title }}</h2>
-    <ng-content></ng-content>
-    <div class="modal-actions">
-      <button (click)="onClose()">Cancelar</button>
-      <button (click)="onConfirm()">Confirmar</button>
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <span>&times;</span>
+      </button>
+    </div>
+    <div class="modal-content">
+      <ng-content></ng-content>
     </div>
   </div>
 </div>

@@ -1,17 +1,15 @@
-<div class="edit-visitor">
-  <h2>Editar Visitante</h2>
-
+<form *ngIf="visitor" (ngSubmit)="updateVisitor()">
   <label>Nome:</label>
-  <input type="text" [(ngModel)]="visitor.name" />
+  <input type="text" [(ngModel)]="visitor.name" name="name" required />
 
   <label>RG:</label>
-  <input type="text" [(ngModel)]="visitor.rg" />
+  <input type="text" [(ngModel)]="visitor.rg" name="rg" required />
 
   <label>Email:</label>
-  <input type="email" [(ngModel)]="visitor.email" />
+  <input type="email" [(ngModel)]="visitor.email" name="email" required />
 
   <label>Foto:</label>
   <input type="file" (change)="onFileSelected($event)" />
 
-  <button (click)="updateVisitor()">Salvar Alterações</button>
-</div>
+  <button type="submit">Salvar</button>
+</form>
