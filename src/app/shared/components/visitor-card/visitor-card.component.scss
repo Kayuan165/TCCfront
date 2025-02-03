@@ -1,24 +1,19 @@
 .visitor-card {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 15px 20px;
+  transition: background 0.3s;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    background: #f5f5f5;
   }
 
   img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #6e00b8;
+    margin-right: 15px;
   }
 
   .info {
@@ -26,14 +21,15 @@
 
     h3 {
       margin: 0;
-      font-size: 1.2rem;
       color: #6e00b8;
+      font-size: 1.1rem;
+      font-weight: bold;
     }
 
     p {
-      margin: 5px 0;
+      margin: 2px 0;
       font-size: 0.9rem;
-      color: #555;
+      color: #4e007f;
     }
   }
 
@@ -47,27 +43,30 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.9rem;
+      font-weight: bold;
       transition: background 0.3s, transform 0.2s;
+    }
 
-      &:first-child {
-        background: #6e00b8;
-        color: white;
+    /* botão de edição */
+    .edit-btn,
+    button:first-child {
+      background: #6e00b8;
+      color: white;
+    }
 
-        &:hover {
-          background: #4e007f;
-          transform: scale(1.05);
-        }
-      }
+    button:first-child:hover {
+      background: #4e007f;
+    }
 
-      &:last-child {
-        background: #ff4d4d;
-        color: white;
+    /* botão de exclusão */
+    .delete-btn,
+    button:last-child {
+      background: red;
+      color: white;
+    }
 
-        &:hover {
-          background: #cc0000;
-          transform: scale(1.05);
-        }
-      }
+    button:last-child:hover {
+      background: darkred;
     }
   }
 }

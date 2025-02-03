@@ -2,54 +2,63 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   backdrop-filter: blur(5px);
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 400px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Botões */
+.delete-modal-actions {
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  gap: 15px;
+  margin-top: 20px;
+}
 
-  .modal {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 90%;
-    overflow: hidden; /* Para garantir que o conteúdo não ultrapasse os limites da modal */
+.confirm-btn {
+  background: red;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      background: #6e00b8;
-      color: white;
+.confirm-btn:hover {
+  background: darkred;
+  transform: scale(1.05);
+}
 
-      h2 {
-        margin: 0;
-        font-size: 1.5rem;
-      }
+.cancel-btn {
+  background: #6e00b8;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
 
-      .close-btn {
-        background: transparent;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: transform 0.2s;
-
-        &:hover {
-          transform: scale(1.2);
-        }
-      }
-    }
-
-    .modal-content {
-      padding: 20px;
-      max-height: 70vh; /* Limitar a altura do conteúdo */
-      overflow-y: auto; /* Adicionar scroll se o conteúdo for muito longo */
-    }
-  }
+.cancel-btn:hover {
+  background: #4e007f;
+  transform: scale(1.05);
 }
