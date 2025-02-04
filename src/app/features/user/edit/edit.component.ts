@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalComponent } from '../../../shared/components/modal/modal.component';
-import { VisitorCardComponent } from '../../../shared/components/visitor-card/visitor-card.component';
 import { User } from '../../../shared/Interfaces/user.interface';
 import { UserService } from '../../../shared/services/user.service';
 import { ToastService } from '../../../shared/components/toast/toast.service';
-import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-edit',
