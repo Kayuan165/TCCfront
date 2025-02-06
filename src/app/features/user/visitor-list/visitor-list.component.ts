@@ -6,10 +6,17 @@ import { EditComponent } from '../edit/edit.component';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { VisitorCardComponent } from '../../../shared/components/visitor-card/visitor-card.component';
 import { ToastService } from '../../../shared/components/toast/toast.service';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-visitor-list',
-  imports: [CommonModule, EditComponent, ModalComponent, VisitorCardComponent],
+  imports: [
+    CommonModule,
+    EditComponent,
+    ModalComponent,
+    VisitorCardComponent,
+    ToastComponent,
+  ],
   templateUrl: './visitor-list.component.html',
   styleUrl: './visitor-list.component.scss',
 })
@@ -42,6 +49,7 @@ export class VisitorListComponent implements OnInit {
 
   closeEditModal() {
     this.isEditModalOpen = false;
+    this.selectedVisitor = null;
   }
 
   openDeleteModal(visitorId: number) {
@@ -61,5 +69,13 @@ export class VisitorListComponent implements OnInit {
         this.closeDeleteModal();
       });
     }
+  }
+
+  onVisitorUpdated(updateVisitor: User) {
+    this.visitors = this.visitors.map((v) =>
+      v.id === updateVisitor.id ? updateVisitor : v
+    );
+    this.toastService.showSucess('Visitante atualizado com sucesso');
+    this.closeEditModal();
   }
 }

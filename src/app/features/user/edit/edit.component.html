@@ -1,4 +1,4 @@
-<form *ngIf="visitor" (ngSubmit)="updateVisitor()">
+<form *ngIf="visitor && formVisible" (ngSubmit)="updateVisitor()">
   <label>Nome:</label>
   <input type="text" [(ngModel)]="visitor.name" name="name" required />
 

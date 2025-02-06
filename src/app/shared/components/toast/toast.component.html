@@ -1,7 +1,11 @@
 <div
   *ngIf="toastService.message()"
   class="toast"
-  [ngClass]="toastService.type()"
+  [ngClass]="{
+    success: toastService.type() === 'sucess',
+    error: toastService.type() === 'error',
+    info: toastService.type() === 'info'
+  }"
 >
   {{ toastService.message() }}
 </div>

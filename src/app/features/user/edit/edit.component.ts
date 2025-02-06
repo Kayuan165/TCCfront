@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../../../shared/Interfaces/user.interface';
 import { UserService } from '../../../shared/services/user.service';
 import { ToastService } from '../../../shared/components/toast/toast.service';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-edit',
@@ -13,6 +21,9 @@ import { ToastService } from '../../../shared/components/toast/toast.service';
 })
 export class EditComponent {
   @Input() visitor!: User;
+  @Output() visitorUpdated = new EventEmitter<User>();
+  @Output() closeModal = new EventEmitter<void>();
+  formVisible = true;
   selectedFile = signal<File | null>(null);
 
   constructor(
@@ -40,8 +51,14 @@ export class EditComponent {
       formData.append('photo', this.selectedFile() as Blob);
     }
 
-    this.userService.update(this.visitor.id, formData).subscribe(() => {
-      this.toastService.showSucess('Visitante atualizado com sucesso');
+    this.userService.update(this.visitor.id, formData).subscribe({
+      next: (updateVisitor) => {
+        this.visitorUpdated.emit(updateVisitor);
+        this.closeModal.emit();
+      },
+      error: (error) => {
+        console.error('Erro ao cadastrar o visitante:', error);
+      },
     });
   }
 }
