@@ -40,7 +40,7 @@ export class EditComponent {
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      rg: ['', [Validators.required, Validators.pattern(/^d{7,14}$/)]],
+      rg: ['', [Validators.required, Validators.pattern(/^\d{7,14}$/)]],
       email: ['', [Validators.required, Validators.email]],
       photo: [null],
     });
@@ -75,6 +75,7 @@ export class EditComponent {
 
       this.selectedFile.set(file);
       this.form.patchValue({ photo: file });
+      this.form.markAsDirty();
     }
   }
 

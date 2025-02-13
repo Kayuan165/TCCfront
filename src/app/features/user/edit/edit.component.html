@@ -4,7 +4,7 @@
 
     <label for="name">Nome:</label>
     <input type="text" id="name" formControlName="name" placeholder="Nome" />
-    <small *ngIf="formControls['name'].invalid && formControls['name'].touched">
+    <small *ngIf="formControls['name'].touched && formControls['name'].invalid">
       {{ formControls["name"].errors?.required ? "O nome é obrigatório." : "" }}
       {{
         formControls["name"].errors?.minlength
@@ -15,7 +15,7 @@
 
     <label for="rg">RG:</label>
     <input type="text" id="rg" formControlName="rg" placeholder="RG" />
-    <small *ngIf="formControls['rg'].invalid && formControls['rg'].touched">
+    <small *ngIf="formControls['rg'].touched && formControls['rg'].invalid">
       {{ formControls["rg"].errors?.required ? "O RG é obrigatório." : "" }}
       {{
         formControls["rg"].errors?.pattern
@@ -32,7 +32,7 @@
       placeholder="Email"
     />
     <small
-      *ngIf="formControls['email'].invalid && formControls['email'].touched"
+      *ngIf="formControls['email'].touched && formControls['email'].invalid"
     >
       {{
         formControls["email"].errors?.required ? "O email é obrigatório." : ""
@@ -43,7 +43,6 @@
     <div class="file-upload">
       <label for="file">Escolher Foto</label>
       <input type="file" id="file" (change)="onFileSelected($event)" />
-      <span *ngIf="selectedFile()">{{ selectedFile()?.name }}</span>
     </div>
 
     <button type="submit" [disabled]="form.invalid || isSubmitting()">
