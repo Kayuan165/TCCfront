@@ -82,35 +82,31 @@ export class EditComponent {
   updateVisitor() {
     if (this.form.invalid) {
       this.toastService.showError('Por favor, corrija os erros do formulário.');
+      this.closeModal.emit();
       return;
     }
 
+    const formValues = this.form.value;
     const formData = new FormData();
+    Object.entries(formValues).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && key !== 'photo') {
+        formData.append(key, String(value));
+      }
+    });
 
-    if (this.visitor.name) {
-      formData.append('name', this.visitor.name);
-    }
-    if (this.visitor.rg) {
-      formData.append('rg', this.visitor.rg);
-    }
-    if (this.visitor.email) {
-      formData.append('email', this.visitor.email);
-    }
-    const selectedFile = this.selectedFile();
-    if (selectedFile) {
-      formData.append('photo', selectedFile, selectedFile.name);
+    if (this.selectedFile instanceof File) {
+      formData.append('photo', this.selectedFile);
     }
 
     this.isSubmitting.set(true);
-    this.userService.update(this.visitor.id, formData).subscribe({
+    this.userService.update(this.visitor.id, formValues).subscribe({
       next: (updateVisitor) => {
         this.toastService.showSucess('Visitante atualizado com sucesso!');
         this.visitorUpdated.emit(updateVisitor);
-        this.closeModal.emit();
+        setTimeout(() => this.closeModal.emit(), 200);
         this.isSubmitting.set(false);
       },
       error: (error) => {
-        console.error('Erro ao atualizar visitante', error);
         this.toastService.showError(
           'Erro ao atualizar o visitante, tente novamente.'
         );

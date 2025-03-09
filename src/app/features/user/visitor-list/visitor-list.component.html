@@ -1,23 +1,23 @@
 <app-toast #toast></app-toast>
 <div class="visitor-list">
   <app-visitor-card
-    *ngFor="let visitor of visitors"
+    *ngFor="let visitor of visitors()"
     [visitor]="visitor"
     (edit)="openEditModal(visitor)"
     (delete)="openDeleteModal(visitor.id)"
   ></app-visitor-card>
 </div>
 
-<app-modal [isOpen]="isEditModalOpen" (close)="closeEditModal()">
+<app-modal [isOpen]="isEditModalOpen()" (close)="closeEditModal()">
   <app-edit
-    *ngIf="selectedVisitor"
-    [visitor]="selectedVisitor"
+    *ngIf="selectedVisitor() as visitor"
+    [visitor]="visitor"
     (visitorUpdated)="onVisitorUpdated($event)"
-    (close)="closeEditModal()"
+    (closeModal)="closeEditModal()"
   ></app-edit>
 </app-modal>
 
-<app-modal [isOpen]="isDeleteModalOpen" (close)="closeDeleteModal()">
+<app-modal [isOpen]="isDeleteModalOpen()" (close)="closeDeleteModal()">
   <div class="delete-modal-content">
     <h2>Tem certeza que deseja excluir?</h2>
     <p>Essa ação não pode ser desfeita.</p>
