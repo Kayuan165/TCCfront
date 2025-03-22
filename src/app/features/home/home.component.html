@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Selecione uma opção</h1>
+
+  <app-dropdown
+    [options]="options"
+    (selectionChange)="onSelectedChange($event)"
+  >
+  </app-dropdown>
+</div>

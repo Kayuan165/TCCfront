@@ -1,11 +1,30 @@
 body {
-  background: linear-gradient(to top, #09050c, #3d0154, #6a01a3cc);
-  min-height: 100vh;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to top, #000000, #3d0154, #6a01a3cc); /* Gradiente cobrindo toda a tela */
+}
+
+/* imagem de fundo */
+.image-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background-image: url('/logo_arquivo.webp');
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 /* Fundo escuro com desfoque para o modal */

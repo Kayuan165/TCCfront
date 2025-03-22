@@ -3,8 +3,8 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'visitor-list',
-    pathMatch: 'full',
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'create',
@@ -14,7 +14,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'visitor-list',
+    path: 'visitor',
     loadComponent: () =>
       import('./features/user/visitor-list/visitor-list.component').then(
         (m) => m.VisitorListComponent
