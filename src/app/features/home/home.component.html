@@ -4,7 +4,7 @@
 
     <div class="btn-group">
       <button class="btn principal" (mouseenter)="abrirMenu('visitante')" (mouseleave)="fecharMenu()">
-        Visitante
+        Visitante >
       </button>
       <div *ngIf="menuAberto === 'visitante'" class="submenu" (mouseenter)="manterMenuAberto()" (mouseleave)="fecharMenu()">
         <button class="btn secundario" (click)="navegar('create-visitor')">Cadastro</button>
@@ -14,7 +14,7 @@
 
     <div class="btn-group">
       <button class="btn principal" (mouseenter)="abrirMenu('morador')" (mouseleave)="fecharMenu()">
-        Morador
+        Morador >
       </button>
       <div *ngIf="menuAberto === 'morador'" class="submenu" (mouseenter)="manterMenuAberto()" (mouseleave)="fecharMenu()">
         <button class="btn secundario" (click)="navegar('create-resident')">Cadastro</button>

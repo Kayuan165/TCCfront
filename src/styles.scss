@@ -5,12 +5,11 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(to top, #000000, #3d0154, #6a01a3cc); /* Gradiente cobrindo toda a tela */
+  background: linear-gradient(to top, #000000, #3d0154, #6a01a3cc);
+  overflow-x: hidden;
 }
 
-/* imagem de fundo */
+/* Imagem de fundo */
 .image-container {
   position: absolute;
   top: 50%;
@@ -27,7 +26,7 @@ body {
   z-index: 1;
 }
 
-/* Fundo escuro com desfoque para o modal */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -50,7 +49,6 @@ body {
   width: 400px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
-  font-family: 'Poppins', sans-serif;
 }
 
 /* Cabeçalho do modal */
@@ -83,7 +81,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.3s ease, transform 0.2s ease;
   }
 
   .close-btn:hover {
@@ -101,7 +99,7 @@ body {
   }
 }
 
-/* Botões de ação no modal */
+/* Botões do modal */
 .modal-actions {
   display: flex;
   justify-content: center;
@@ -109,7 +107,6 @@ body {
   margin-top: 20px;
 }
 
-/* Botão de exclusão */
 .confirm-btn {
   background: red;
   color: white;
@@ -119,7 +116,7 @@ body {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .confirm-btn:hover {
@@ -127,7 +124,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Botão de cancelamento roxo */
 .cancel-btn {
   background: #6e00b8;
   color: white;
@@ -137,10 +133,34 @@ body {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .cancel-btn:hover {
   background: #4e007f;
   transform: scale(1.05);
+}
+
+/* Melhorias responsivas */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 50px;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .image-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .modal {
+    width: 90%;
+    max-width: 350px;
+  }
 }
