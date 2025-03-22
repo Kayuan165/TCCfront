@@ -10,10 +10,17 @@ import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../shared/Interfaces/user.interface';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, ToastComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    ToastComponent,
+    BackButtonComponent,
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })

@@ -15,6 +15,7 @@ import { ModalComponent } from '../../../shared/components/modal/modal.component
 import { VisitorCardComponent } from '../../../shared/components/visitor-card/visitor-card.component';
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 @Component({
   selector: 'app-visitor-list',
@@ -24,6 +25,7 @@ import { ToastComponent } from '../../../shared/components/toast/toast.component
     ModalComponent,
     VisitorCardComponent,
     ToastComponent,
+    BackButtonComponent,
   ],
   templateUrl: './visitor-list.component.html',
   styleUrl: './visitor-list.component.scss',
