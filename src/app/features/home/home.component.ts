@@ -1,24 +1,38 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { DropdownComponent } from "../../shared/dropdown/dropdown.component";
 
 @Component({
   selector: 'app-home',
-  imports: [DropdownComponent],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  options = [
-    { label: 'Visitante', value: 'visitor' },
-    { label: 'Morador', value: 'resident' },
-  ];
+  menuAberto: string | null = null;
+  cardVisivel = signal(false);
+  timeoutMenu: any;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    setTimeout(() => this.cardVisivel.set(true), 300);
+  }
 
-  onSelectedChange(selectedValue: string) {
-    if (selectedValue) {
-      this.router.navigate([`/${selectedValue}`]);
-    }
+  abrirMenu(opcao: string) {
+    clearTimeout(this.timeoutMenu);
+    this.menuAberto = opcao;
+  }
+
+  fecharMenu() {
+    this.timeoutMenu = setTimeout(() => {
+      this.menuAberto = null;
+    }, 300);
+  }
+
+  manterMenuAberto() {
+    clearTimeout(this.timeoutMenu);
+  }
+
+  navegar(rota: string) {
+    this.router.navigate([rota]);
   }
 }

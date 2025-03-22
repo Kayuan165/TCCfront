@@ -1,9 +1,27 @@
 <div class="container">
-  <h1>Selecione uma opção</h1>
+  <div class="card">
+    <h2 class="titulo">Acesso ao Condomínio</h2>
 
-  <app-dropdown
-    [options]="options"
-    (selectionChange)="onSelectedChange($event)"
-  >
-  </app-dropdown>
+    <div class="btn-group">
+      <button class="btn principal" (mouseenter)="abrirMenu('visitante')" (mouseleave)="fecharMenu()">
+        Visitante
+      </button>
+      <div *ngIf="menuAberto === 'visitante'" class="submenu" (mouseenter)="manterMenuAberto()" (mouseleave)="fecharMenu()">
+        <button class="btn secundario" (click)="navegar('create-visitor')">Cadastro</button>
+        <button class="btn secundario" (click)="navegar('visitor')">Consulta</button>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn principal" (mouseenter)="abrirMenu('morador')" (mouseleave)="fecharMenu()">
+        Morador
+      </button>
+      <div *ngIf="menuAberto === 'morador'" class="submenu" (mouseenter)="manterMenuAberto()" (mouseleave)="fecharMenu()">
+        <button class="btn secundario" (click)="navegar('create-resident')">Cadastro</button>
+        <button class="btn secundario" (click)="navegar('resident')">Consulta</button>
+      </div>
+    </div>
+
+    <button class="btn consulta" (click)="navegar('attendance')">Consulta de Entrada/Saída</button>
+  </div>
 </div>
