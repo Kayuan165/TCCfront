@@ -48,11 +48,30 @@ export class RegisterComponent {
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input?.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-      this.registerForm.patchValue({ photo: this.selectedFile.name });
+
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      if (!file.type.startsWith('image/')) {
+        this.toast.toastService.showError(
+          'Por favor, selecione um arquivo de imagem válido!'
+        );
+        this.selectedFile = null;
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        this.toast.toastService.showError(
+          'O tamanho da imagem não pode exceder 2MB'
+        );
+        return;
+      }
+
+      this.selectedFile = file;
+      this.registerForm.patchValue({ photo: file });
     } else {
       this.selectedFile = null;
+      this.registerForm.patchValue({ photo: null });
     }
   }
   onSubmit(): void {

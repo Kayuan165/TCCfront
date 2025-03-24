@@ -7,6 +7,7 @@ body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to top, #000000, #3d0154, #6a01a3cc);
   overflow-x: hidden;
+  padding-top: 20px;
 }
 
 /* Imagem de fundo */
@@ -23,7 +24,7 @@ body {
   filter: blur(5px);
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  z-index: -1;
 }
 
 /* Modal overlay */
@@ -93,6 +94,7 @@ body {
 
 /* Conteúdo do modal */
 .modal-content {
+  padding: 0;
   p {
     font-size: 1rem;
     color: #4e007f;

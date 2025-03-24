@@ -11,8 +11,25 @@
   > *:not(:last-child) {
     border-bottom: 1px solid #ddd;
   }
-
+  position: relative;
+  z-index: 10;
 
 }
 
 
+.edit-modal-wrapper {
+  width: 450px;
+  max-width: 95vw;
+  padding: 0;
+
+  app-edit {
+    display: block;
+    width: 100%;
+
+    form {
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+    }
+  }
+}

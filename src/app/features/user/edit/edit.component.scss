@@ -1,51 +1,115 @@
-form {
+.form-container {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background: transparent;
 
-  label {
-    font-size: 1rem;
-    color: #4e007f;
-    margin-bottom: 5px;
-  }
+  form {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    width: 400px;
+    max-width: 95%;
 
-  input[type="text"],
-  input[type="email"],
-  input[type="file"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    outline: none;
-    font-size: 0.9rem;
-    transition: border-color 0.3s;
-  }
+    h1 {
+      color: #6e00b8;
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
 
-  input[type="text"]:focus,
-  input[type="email"]:focus {
-    border: 1px solid #6e00b8;
-  }
+    label:not(.file-upload label) {
+      display: block;
+      font-size: 0.95rem;
+      color: #4e007f;
+      margin-bottom: 8px;
+      font-weight: 500;
+      margin-top: 15px;
+    }
 
-  button {
-    width: 100%;
-    padding: 12px;
-    background: #6e00b8;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-  }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      transition: border-color 0.3s;
+      background: white;
 
-  button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
+      &:focus {
+        border-color: #6e00b8;
+        outline: none;
+      }
+    }
 
-  button:hover:not(:disabled) {
-    background: #4e007f;
-    transform: scale(1.05);
+    small {
+      color: #e63946;
+      font-size: 0.75rem;
+      display: block;
+      margin: 5px 0 15px;
+    }
+
+    .file-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+
+      > label {
+        background: #4e007f;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        border: none;
+        font-weight: bold;
+
+        &:hover {
+          background: #6e00b8;
+          transform: translateY(-2px);
+        }
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      span {
+        font-size: 0.85rem;
+        color: #333;
+        font-style: normal;
+        font-weight: 500;
+      }
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #6e00b8;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+
+      &:hover:not(:disabled) {
+        background: #4e007f;
+        transform: scale(1.02);
+      }
+
+      &:disabled {
+        background: #aaa;
+        cursor: not-allowed;
+      }
+    }
   }
 }

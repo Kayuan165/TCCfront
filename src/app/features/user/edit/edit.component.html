@@ -43,6 +43,7 @@
     <div class="file-upload">
       <label for="file">Escolher Foto</label>
       <input type="file" id="file" (change)="onFileSelected($event)" />
+      <span>{{fileName()}}</span>
     </div>
 
     <button type="submit" [disabled]="form.invalid || isSubmitting()">

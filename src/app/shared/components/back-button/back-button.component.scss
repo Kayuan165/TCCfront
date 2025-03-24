@@ -1,16 +1,28 @@
 .back-btn {
+  background: rgba(123, 0, 192, 0.8); // Cor sólida com transparência
   color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s;
-  display: flex;
+  padding: 8px 16px;
+  border: none; // Removemos a borda
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  margin: 0;
+  z-index: 50;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); // Sombra para profundidade
 
   &:hover {
-    background: #4e007f;
+    background: rgba(94, 0, 143, 0.9); // Cor mais escura no hover
+  }
+
+  .arrow {
+    font-size: 1.1rem;
   }
 }

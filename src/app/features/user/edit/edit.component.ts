@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   EventEmitter,
   Input,
   Output,
@@ -32,6 +33,11 @@ export class EditComponent {
   form: FormGroup;
   selectedFile = signal<File | null>(null);
   isSubmitting = signal(false);
+
+  fileName = computed(() => {
+    const file = this.selectedFile()
+    return file ? file.name : 'Nenhum arquivo selecionado'
+  })
 
   constructor(
     private fb: FormBuilder,
@@ -74,7 +80,7 @@ export class EditComponent {
       }
 
       this.selectedFile.set(file);
-      this.form.patchValue({ photo: file });
+      this.form.patchValue({ photo: file.name });
       this.form.markAsDirty();
     }
   }

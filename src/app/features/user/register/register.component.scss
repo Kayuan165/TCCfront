@@ -1,146 +1,114 @@
-/* container para centralizar o formulário */
-.form-container {
+.card-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(to top, #09050c, #3d0154, #6a01a3cc);
-  font-family: 'Poppins', sans-serif;
+  min-height: calc(100vh - 40px);
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* card do form */
-form {
-  width: 400px;
-  padding: 25px 35px;
+.card {
   background: white;
   border-radius: 20px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-  gap: 20px;
+  padding: 25px 35px;
+  position: relative;
+  width: 400px;
+  margin: 0 auto;
+  max-width: 95%;
+
+  h1 {
+    color: #6e00b8;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+  }
 }
 
-/* titulo */
-form h1 {
-  text-align: center;
-  color: #6e00b8;
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
+.form-group {
+  margin-bottom: 20px;
 
-/* labels */
-form label {
-  font-size: 1rem;
-  color: #4e007f;
-  margin-bottom: 5px;
-}
+  label {
+    display: block;
+    margin-bottom: 4px;
+    color: #4e007f;
+    font-weight: 500;
+    font-size: 1rem;
+  }
 
-/* inputs */
-form input[type="text"],
-form input[type="email"],
-form input[type="file"] {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  outline: none;
-  font-size: 0.9rem;
-  transition: border-color 0.3s;
-}
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
 
-form input[type="text"]:focus,
-form input[type="email"]:focus {
-  border: 1px solid #6e00b8;
-}
+    &:focus {
+      border-color: #6e00b8;
+      outline: none;
+    }
+  }
 
-/* selecionar arquivo */
-form input[type="file"] {
-  display: none;
+  small {
+    color: #e63946;
+    font-size: 0.75rem;
+    display: block;
+    margin-top: 4px;
+  }
 }
 
 .file-upload {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.9rem;
+
+  label {
+    background: #6e00b8;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+
+    &:hover {
+      background: #4e007f;
+    }
+  }
+
+  span {
+    font-size: 0.85rem;
+    color: #555;
+    font-style: italic;
+  }
 }
 
-.file-upload label {
-  background: #6e00b8;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-  font-size: 0.9rem;
-  font-weight: bold;
+input[type="file"] {
+  display: none;
 }
 
-.file-upload label:hover {
-  background: #4e007f;
-}
-
-.file-upload span {
-  font-size: 0.85rem;
-  color: #555;
-  font-style: italic;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-
-form input[type="file"]::before {
-  content: "Selecionar Arquivo";
-  display: inline-block;
-  font-size: 0.9rem;
-  color: white;
-  background: #6e00b8;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-form input[type="file"]:hover::before {
-  background: #4e007f;
-}
-
-form input[type="file"]::after {
-  content: "Nenhum arquivo escolhido";
-  font-size: 0.8rem;
-  color: #777;
-  margin-left: 10px;
-}
-
-/* botao */
-form button {
+.primary-btn {
   width: 100%;
-  padding: 12px 15px;
+  padding: 12px;
   background: #6e00b8;
   color: white;
-  font-size: 1rem;
-  font-weight: bold;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
+  transition: all 0.3s;
+  margin-top: 10px;
 
-form button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
+  &:hover:not(:disabled) {
+    background: #4e007f;
+    transform: translateY(-2px);
+  }
 
-form button:hover:not(:disabled) {
-  background: #4e007f;
-  transform: scale(1.05);
-}
-
-/* mensagem de erro */
-form small {
-  color: red;
-  font-size: 0.8rem;
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 }
