@@ -1,1 +1,150 @@
-<p>resident-register works!</p>
+<app-toast #toast></app-toast>
+
+<div class="card-container">
+  <app-back-button></app-back-button>
+
+  <div class="card">
+    <h1>Cadastro de Moradores</h1>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="form-container"
+    >
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nome:</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Digite o nome completo"
+          />
+          @if (registerForm.get('name')?.invalid &&
+          registerForm.get('name')?.touched) {
+          <small>
+            @if (registerForm.get('name')?.errors?.['required']) { Nome é
+            obrigatório } @else if
+            (registerForm.get('name')?.errors?.['minlength']) { Nome deve ter
+            pelo menos 2 caracteres } @else if
+            (registerForm.get('name')?.errors?.['maxlength']) { Nome não pode
+            exceder 100 caracteres }
+          </small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="rg">RG:</label>
+          <input
+            id="rg"
+            type="text"
+            formControlName="rg"
+            placeholder="Digite o RG"
+            inputmode="numeric"
+          />
+          @if (registerForm.get('rg')?.invalid &&
+          registerForm.get('rg')?.touched) {
+          <small>
+            @if (registerForm.get('rg')?.errors?.['required']) { RG é
+            obrigatório } @else if (registerForm.get('rg')?.errors?.['pattern'])
+            { RG deve conter apenas números } @else if
+            (registerForm.get('rg')?.errors?.['minlength']) { RG deve ter pelo
+            menos 8 dígitos } @else if
+            (registerForm.get('rg')?.errors?.['maxlength']) { RG não pode
+            exceder 12 dígitos }
+          </small>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Digite o email"
+          />
+          @if (registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched) {
+          <small>
+            @if (registerForm.get('email')?.errors?.['required']) { Email é
+            obrigatório } @else if
+            (registerForm.get('email')?.errors?.['email']) { Email inválido }
+            @else if (registerForm.get('email')?.errors?.['maxlength']) { Email
+            não pode exceder 100 caracteres }
+          </small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefone/Celular:</label>
+          <input
+            id="phone"
+            type="text"
+            formControlName="phone"
+            placeholder="(00) 00000-0000"
+            appPhoneMask
+          />
+          @if (registerForm.get('phone')?.invalid &&
+          registerForm.get('phone')?.touched) {
+          <small>
+            @if (registerForm.get('phone')?.errors?.['required']) { Telefone é
+            obrigatório } @else { Telefone inválido (formato: (00) 00000-0000) }
+          </small>
+          }
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="address">Endereço:</label>
+        <input
+          id="address"
+          type="text"
+          formControlName="address"
+          placeholder="Digite o endereço completo"
+        />
+        @if (registerForm.get('address')?.invalid &&
+        registerForm.get('address')?.touched) {
+        <small>
+          @if (registerForm.get('address')?.errors?.['required']) { Endereço é
+          obrigatório } @else if
+          (registerForm.get('address')?.errors?.['minlength']) { Endereço deve
+          ter pelo menos 5 caracteres } @else if
+          (registerForm.get('address')?.errors?.['maxlength']) { Endereço não
+          pode exceder 200 caracteres }
+        </small>
+        }
+      </div>
+
+      <div class="form-group full-width">
+        <label for="photo">Foto para Identificação:</label>
+        <div class="file-upload">
+          <label for="photo">Escolher Foto</label>
+          <input
+            id="photo"
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+          <span>{{ selectedFile?.name || "Nenhum arquivo selecionado" }}</span>
+        </div>
+        @if (registerForm.get('photo')?.invalid &&
+        registerForm.get('photo')?.touched) {
+        <small>Foto é obrigatória (máx. 2MB)</small>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="primary-btn"
+        [disabled]="registerForm.invalid || !selectedFile || isSubmitting"
+      >
+        @if (isSubmitting) {
+        <span class="spinner"></span>
+        } @else { Cadastrar }
+      </button>
+    </form>
+  </div>
+</div>

@@ -75,8 +75,6 @@ export class RegisterComponent {
     }
   }
   onSubmit(): void {
-    console.log('Formulário:', this.registerForm.value);
-    console.log('Valid:', this.registerForm.valid);
 
     if (this.registerForm.valid && this.selectedFile) {
       const user: User = {
