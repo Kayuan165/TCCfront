@@ -15,8 +15,8 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/create`, data);
   }
 
-  getAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}`);
+  getAll(type: 'visitor' | 'resident'): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}?type=${type}`);
   }
 
   get(id: number): Observable<User> {

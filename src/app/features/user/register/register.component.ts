@@ -75,7 +75,6 @@ export class RegisterComponent {
     }
   }
   onSubmit(): void {
-
     if (this.registerForm.valid && this.selectedFile) {
       const user: User = {
         id: this.registerForm.get('id')?.value,
@@ -83,6 +82,7 @@ export class RegisterComponent {
         rg: this.registerForm.get('rg')?.value,
         email: this.registerForm.get('email')?.value,
         photo: this.selectedFile,
+        type: 'visitor',
       };
 
       const formData = new FormData();
@@ -90,6 +90,7 @@ export class RegisterComponent {
       formData.append('rg', user.rg);
       formData.append('email', user.email);
       formData.append('photo', user.photo);
+      formData.append('type', user.type);
 
       this.userService.register(formData).subscribe(
         () => {

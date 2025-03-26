@@ -6,4 +6,5 @@ export interface Resident {
   phone: string;
   address: string;
   photo: File;
+  type: string;
 }

@@ -127,6 +127,7 @@ export class ResidentRegisterComponent {
       address: this.registerForm.get('address')?.value.trim(),
       email: this.registerForm.get('email')?.value.trim(),
       photo: this.selectedFile,
+      type: 'resident',
     };
 
     const formData = new FormData();
@@ -136,6 +137,11 @@ export class ResidentRegisterComponent {
     formData.append('address', user.address);
     formData.append('email', user.email);
     formData.append('photo', user.photo);
+    formData.append('type', user.type);
+
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
 
     this.userService.register(formData).subscribe({
       next: () => {

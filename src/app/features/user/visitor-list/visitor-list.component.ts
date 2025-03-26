@@ -49,7 +49,7 @@ export class VisitorListComponent {
 
   private loadVisitors(): void {
     this.userService
-      .getAll()
+      .getAll('visitor')
       .pipe(takeUntilDestroyed())
       .subscribe({
         next: (data) => this.visitors.set(data),

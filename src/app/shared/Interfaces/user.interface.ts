@@ -4,4 +4,5 @@ export interface User {
   rg: string;
   email: string;
   photo: File;
+  type: string;
 }
