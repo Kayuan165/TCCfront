@@ -1,35 +1,52 @@
-.visitor-list {
-  width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  > *:not(:last-child) {
-    border-bottom: 1px solid #ddd;
-  }
-  position: relative;
-  z-index: 10;
+.delete-modal-content {
+  padding: 20px;
+  text-align: center;
 
+  h2 {
+    color: #6e00b8;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #4e007f;
+    margin-bottom: 20px;
+  }
 }
 
+.delete-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 
-.edit-modal-wrapper {
-  width: 450px;
-  max-width: 95vw;
-  padding: 0;
+  .confirm-btn {
+    background: #e63946;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
 
-  app-edit {
-    display: block;
-    width: 100%;
+    &:hover {
+      background: darken(#e63946, 10%);
+      transform: scale(1.05);
+    }
+  }
 
-    form {
-      background: transparent;
-      box-shadow: none;
-      padding: 0;
+  .cancel-btn {
+    background: #6e00b8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+
+    &:hover {
+      background: darken(#6e00b8, 10%);
+      transform: scale(1.05);
     }
   }
 }

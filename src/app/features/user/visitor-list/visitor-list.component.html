@@ -1,13 +1,12 @@
 <app-toast #toast></app-toast>
 <app-back-button></app-back-button>
-<div class="visitor-list">
-  <app-visitor-card
-    *ngFor="let visitor of visitors()"
-    [visitor]="visitor"
-    (edit)="openEditModal(visitor)"
-    (delete)="openDeleteModal(visitor.id)"
-  ></app-visitor-card>
-</div>
+
+<app-data-table
+  [columns]="columns"
+  [data]="visitors()"
+  (onEdit)="openEditModal($event)"
+  (onDelete)="openDeleteModal($event)"
+></app-data-table>
 
 <app-modal [isOpen]="isEditModalOpen()" (close)="closeEditModal()">
   <app-edit

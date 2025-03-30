@@ -8,7 +8,7 @@
       </button>
       <div *ngIf="menuAberto === 'visitante'" class="submenu" (mouseenter)="manterMenuAberto()" (mouseleave)="fecharMenu()">
         <button class="btn secundario" (click)="navegar('create-visitor')">Cadastro</button>
-        <button class="btn secundario" (click)="navegar('visitor')">Consulta</button>
+        <button class="btn secundario" (click)="navegar('visitors')">Consulta</button>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
       </button>
       <div *ngIf="menuAberto === 'morador'" class="submenu" (mouseenter)="manterMenuAberto()" (mouseleave)="fecharMenu()">
         <button class="btn secundario" (click)="navegar('create-resident')">Cadastro</button>
-        <button class="btn secundario" (click)="navegar('resident')">Consulta</button>
+        <button class="btn secundario" (click)="navegar('residents')">Consulta</button>
       </div>
     </div>
 

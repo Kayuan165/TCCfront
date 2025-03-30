@@ -12,10 +12,11 @@ import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { EditComponent } from '../edit/edit.component';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
-import { VisitorCardComponent } from '../../../shared/components/visitor-card/visitor-card.component';
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
+import { FormsModule } from '@angular/forms';
+import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
 
 @Component({
   selector: 'app-visitor-list',
@@ -23,9 +24,10 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
     CommonModule,
     EditComponent,
     ModalComponent,
-    VisitorCardComponent,
     ToastComponent,
     BackButtonComponent,
+    FormsModule,
+    DataTableComponent,
   ],
   templateUrl: './visitor-list.component.html',
   styleUrl: './visitor-list.component.scss',
@@ -38,6 +40,14 @@ export class VisitorListComponent {
   selectedVisitor = signal<User | null>(null);
   selectedVisitorId = signal<number | null>(null);
 
+  columns = [
+    {header: 'Foto', field: 'photo'},
+    {header: 'Nome', field: 'name'},
+    {header: 'RG', field: 'rg'},
+    {header: 'Email', field: 'email'}
+
+  ]
+
   isEditModalOpen: Signal<boolean> = computed(() => !!this.selectedVisitor());
   isDeleteModalOpen: Signal<boolean> = computed(
     () => !!this.selectedVisitorId()
@@ -49,7 +59,7 @@ export class VisitorListComponent {
 
   private loadVisitors(): void {
     this.userService
-      .getAll('visitor')
+      .getAllVisitors()
       .pipe(takeUntilDestroyed())
       .subscribe({
         next: (data) => this.visitors.set(data),
@@ -92,7 +102,6 @@ export class VisitorListComponent {
 
   onVisitorUpdated(updateVisitor: User): void {
     if (!updateVisitor) return;
-    console.log('Visitante atualizado recebido:', updateVisitor);
 
     this.visitors.update((currentVisitors) =>
       currentVisitors.map((v) =>

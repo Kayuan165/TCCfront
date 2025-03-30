@@ -1,0 +1,95 @@
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="updateResidents()">
+    <h1>Editar Morador</h1>
+
+    <label for="name">Nome:</label>
+    <input type="text" id="name" formControlName="name" placeholder="Nome" />
+    <small *ngIf="formControls['name'].touched && formControls['name'].invalid">
+      {{ formControls["name"].errors?.required ? "O nome é obrigatório." : "" }}
+      {{
+        formControls["name"].errors?.minlength
+          ? "O nome deve ter no mínimo 3 caracteres."
+          : ""
+      }}
+    </small>
+
+    <label for="rg">RG:</label>
+    <input type="text" id="rg" formControlName="rg" placeholder="RG" />
+    <small *ngIf="formControls['rg'].touched && formControls['rg'].invalid">
+      {{ formControls["rg"].errors?.required ? "O RG é obrigatório." : "" }}
+      {{
+        formControls["rg"].errors?.pattern
+          ? "Insira um RG válido (7 a 14 dígitos)."
+          : ""
+      }}
+    </small>
+
+    <label for="email">Email:</label>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      placeholder="Email"
+    />
+    <small
+      *ngIf="formControls['email'].touched && formControls['email'].invalid"
+    >
+      {{
+        formControls["email"].errors?.required ? "O email é obrigatório." : ""
+      }}
+      {{ formControls["email"].errors?.email ? "Insira um email válido." : "" }}
+    </small>
+
+    <label for="phone">Telefone:</label>
+    <input
+      type="text"
+      id="phone"
+      formControlName="phone"
+      placeholder="Telefone"
+    />
+    <small
+      *ngIf="formControls['phone'].touched && formControls['phone'].invalid"
+    >
+      {{
+        formControls["phone"].errors?.required ? "O telefone é obrigatório." : ""
+      }}
+      {{
+        formControls["phone"].errors?.pattern
+          ? "Insira um telefone válido (10 ou 11 dígitos)."
+          : ""
+      }}
+    </small>
+
+    <label for="address">Endereço:</label>
+    <input
+      type="text"
+      id="address"
+      formControlName="address"
+      placeholder="Endereço"
+    />
+    <small
+      *ngIf="formControls['address'].touched && formControls['address'].invalid"
+    >
+      {{
+        formControls["address"].errors?.required
+          ? "O endereço é obrigatório."
+          : ""
+      }}
+      {{
+        formControls["address"].errors?.minlength
+          ? "O endereço deve ter no mínimo 5 caracteres."
+          : ""
+      }}
+    </small>
+
+    <div class="file-upload">
+      <label for="file">Escolher Foto</label>
+      <input type="file" id="file" (change)="onFileSelected($event)" />
+      <span>{{ fileName() }}</span>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || isSubmitting()">
+      {{ isSubmitting() ? "Salvando..." : "Salvar" }}
+    </button>
+  </form>
+</div>

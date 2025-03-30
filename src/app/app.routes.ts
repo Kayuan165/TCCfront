@@ -1,3 +1,4 @@
+import { provideClientHydration } from '@angular/platform-browser';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -14,21 +15,22 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'visitor',
+    path: 'visitors',
     loadComponent: () =>
       import('./features/user/visitor-list/visitor-list.component').then(
         (m) => m.VisitorListComponent
       ),
   },
   {
-    path: 'edit',
+    path: 'edit-visitor',
     loadComponent: () =>
       import('./features/user/edit/edit.component').then(
         (m) => m.EditComponent
       ),
+    providers: [provideClientHydration()],
   },
   {
-    path: 'resident',
+    path: 'residents',
     loadComponent: () =>
       import('./features/resident/resident-list/resident-list.component').then(
         (m) => m.ResidentListComponent
@@ -40,6 +42,14 @@ export const routes: Routes = [
       import(
         './features/resident/resident-register/resident-register.component'
       ).then((m) => m.ResidentRegisterComponent),
+  },
+  {
+    path: 'edit-resident',
+    loadComponent: () =>
+      import('./features/resident/resident-edit/resident-edit.component').then(
+        (m) => m.ResidentEditComponent
+      ),
+    providers: [provideClientHydration()],
   },
   {
     path: 'attendance',

@@ -1,1 +1,32 @@
-<p>resident-list works!</p>
+<app-toast #toast></app-toast>
+<app-back-button></app-back-button>
+
+<app-data-table
+  [columns]="columns"
+  [data]="residents()"
+  (onEdit)="openEditModal($event)"
+  (onDelete)="openDeleteModal($event)"
+>
+</app-data-table>
+
+<app-modal [isOpen]="isEditModalOpen()" (close)="closeEditModal()">
+  <app-resident-edit
+    *ngIf="selectedResidents() as resident"
+    [resident]="resident"
+    (residentUpdated)="onResidentUpdated($event)"
+    (closeModal)="closeEditModal()"
+  ></app-resident-edit>
+</app-modal>
+
+<app-modal [isOpen]="isDeleteModalOpen()" (close)="closeDeleteModal()">
+  <div class="delete-modal-content">
+    <h2>Tem certeza que deseja excluir?</h2>
+    <p>Essa ação não pode ser desfeita.</p>
+    <div class="delete-modal-actions">
+      <button class="confirm-btn" (click)="confirmDelete()">
+        Sim, excluir
+      </button>
+      <button class="cancel-btn" (click)="closeDeleteModal()">Cancelar</button>
+    </div>
+  </div>
+</app-modal>
