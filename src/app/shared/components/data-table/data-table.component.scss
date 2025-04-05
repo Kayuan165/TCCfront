@@ -128,3 +128,22 @@ tr:hover {
   text-align: center;
   color: #666;
 }
+
+:host ::ng-deep {
+  .badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    display: inline-block;
+
+    &-resident {
+      background: #e3f2fd;
+      color: #0d47a1;
+    }
+
+    &-visitor {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+  }
+}

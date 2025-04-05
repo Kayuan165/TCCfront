@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ContentChild,
   EventEmitter,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TypeTranslatePipe } from '../pipes/translate.pipe';
+import { DomSanitizer } from '@angular/platform-browser';
 
 interface DataTableColumn {
   header: string;
@@ -26,9 +30,12 @@ export class DataTableComponent<T extends { id: number }> implements OnChanges {
   @Input() showActions: Boolean = true;
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<number>();
+  @ContentChild('customCell') customCellTemplate?: TemplateRef<any>;
 
   searchTerm = '';
   filteredData: T[] = [];
+
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
@@ -51,11 +58,18 @@ export class DataTableComponent<T extends { id: number }> implements OnChanges {
   }
 
   getFieldValue(item: any, field: string): any {
-    return field
-      .split('.')
-      .reduce(
-        (obj, key) => (obj !== null && obj !== undefined ? obj[key] : null),
-        item
+    const value = field.split('.').reduce((o, k) => o?.[k], item);
+
+    if (field === 'user.type') {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        `<span class="badge ${
+          value === 'resident' ? 'badge-resident' : 'badge-visitor'
+        }">
+          ${value === 'resident' ? 'Morador' : 'Visitante'}
+        </span>`
       );
+    }
+
+    return value;
   }
 }

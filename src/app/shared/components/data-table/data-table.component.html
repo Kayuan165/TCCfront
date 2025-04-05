@@ -31,17 +31,19 @@
       <tbody>
         <tr *ngFor="let item of filteredData">
           <td *ngFor="let column of columns">
-            <ng-container *ngIf="column.field === 'photo'; else textCell">
-              <img
-                *ngIf="getFieldValue(item, column.field)"
-                [src]="getFieldValue(item, column.field)"
-                alt="Foto"
-                class="user-photo"
-              />
+            <ng-container *ngIf="column.field === 'photo'; else notPhoto">
+              <img *ngIf="getFieldValue(item, column.field)"
+                   [src]="getFieldValue(item, column.field)"
+                   class="user-photo" />
               <span *ngIf="!getFieldValue(item, column.field)">Sem foto</span>
             </ng-container>
-            <ng-template #textCell>
-              {{ getFieldValue(item, column.field) }}
+
+            <ng-template #notPhoto>
+              <span *ngIf="column.field === 'user.type'"
+                    [innerHTML]="getFieldValue(item, column.field)"></span>
+              <ng-container *ngIf="column.field !== 'user.type'">
+                {{ getFieldValue(item, column.field) }}
+              </ng-container>
             </ng-template>
           </td>
           <td class="actions-cell" *ngIf="showActions">
