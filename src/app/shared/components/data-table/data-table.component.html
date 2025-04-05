@@ -25,7 +25,7 @@
           <th *ngFor="let column of columns">
             {{ column.header }}
           </th>
-          <th>Ações</th>
+          <th *ngIf="showActions">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -33,23 +33,19 @@
           <td *ngFor="let column of columns">
             <ng-container *ngIf="column.field === 'photo'; else textCell">
               <img
-                *ngIf="getValue(item, column.field)"
-                [src]="getValue(item, column.field)"
+                *ngIf="getFieldValue(item, column.field)"
+                [src]="getFieldValue(item, column.field)"
                 alt="Foto"
                 class="user-photo"
               />
-              <span *ngIf="!getValue(item, column.field)">Sem foto</span>
+              <span *ngIf="!getFieldValue(item, column.field)">Sem foto</span>
             </ng-container>
             <ng-template #textCell>
-              {{ getValue(item, column.field) }}
+              {{ getFieldValue(item, column.field) }}
             </ng-template>
           </td>
-          <td class="actions-cell">
-            <button
-              class="edit-btn"
-              (click)="onEdit.emit(item)"
-              title="Editar"
-            >
+          <td class="actions-cell" *ngIf="showActions">
+            <button class="edit-btn" (click)="onEdit.emit(item)" title="Editar">
               <svg viewBox="0 0 24 24" width="18" height="18">
                 <path
                   fill="currentColor"

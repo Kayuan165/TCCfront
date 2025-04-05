@@ -70,7 +70,6 @@ export class ResidentEditComponent {
     if (this.resident) {
       this.form.patchValue(this.resident);
     }
-    console.log(this.resident);
   }
 
   get formControls() {

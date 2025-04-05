@@ -139,10 +139,6 @@ export class ResidentRegisterComponent {
     formData.append('photo', user.photo);
     formData.append('type', user.type);
 
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
     this.userService.register(formData).subscribe({
       next: () => {
         this.toast.toastService.showSucess('Morador cadastrado com sucesso!');

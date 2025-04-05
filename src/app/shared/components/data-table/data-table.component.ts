@@ -23,6 +23,7 @@ interface DataTableColumn {
 export class DataTableComponent<T extends { id: number }> implements OnChanges {
   @Input() columns: DataTableColumn[] = [];
   @Input() data: T[] = [];
+  @Input() showActions: Boolean = true;
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<number>();
 
@@ -49,7 +50,12 @@ export class DataTableComponent<T extends { id: number }> implements OnChanges {
     );
   }
 
-  getValue(item: T, field: string): any {
-    return (item as any)[field];
+  getFieldValue(item: any, field: string): any {
+    return field
+      .split('.')
+      .reduce(
+        (obj, key) => (obj !== null && obj !== undefined ? obj[key] : null),
+        item
+      );
   }
 }

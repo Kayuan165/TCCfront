@@ -1,1 +1,4 @@
-<p>attendance-list works!</p>
+<app-toast #toast></app-toast>
+<app-back-button></app-back-button>
+
+<app-data-table [columns]="column" [data]="attendances()" [showActions]="false"></app-data-table>
