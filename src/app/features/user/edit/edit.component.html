@@ -5,39 +5,25 @@
     <label for="name">Nome:</label>
     <input type="text" id="name" formControlName="name" placeholder="Nome" />
     <small *ngIf="formControls['name'].touched && formControls['name'].invalid">
-      {{ formControls["name"].errors?.required ? "O nome é obrigatório." : "" }}
-      {{
-        formControls["name"].errors?.minlength
-          ? "O nome deve ter no mínimo 3 caracteres."
-          : ""
-      }}
+      {{ formControls["name"].errors?.['required'] ? "Nome é obrigatório" : "" }}
+      {{ formControls["name"].errors?.['minlength'] ? "Nome deve ter pelo menos 2 caracteres" : "" }}
+      {{ formControls["name"].errors?.['maxlength'] ? "Nome não pode exceder 100 caracteres" : "" }}
     </small>
 
     <label for="rg">RG:</label>
-    <input type="text" id="rg" formControlName="rg" placeholder="RG" />
+    <input type="text" id="rg" formControlName="rg" placeholder="RG" numbersOnly />
     <small *ngIf="formControls['rg'].touched && formControls['rg'].invalid">
-      {{ formControls["rg"].errors?.required ? "O RG é obrigatório." : "" }}
-      {{
-        formControls["rg"].errors?.pattern
-          ? "Insira um RG válido (7 a 14 dígitos)."
-          : ""
-      }}
+      {{ formControls["rg"].errors?.['required'] ? "RG é obrigatório" : "" }}
+      {{ formControls["rg"].errors?.['minlength'] ? "RG deve ter pelo menos 8 dígitos" : "" }}
+      {{ formControls["rg"].errors?.['maxlength'] ? "RG não pode exceder 12 dígitos" : "" }}
     </small>
 
     <label for="email">Email:</label>
-    <input
-      type="email"
-      id="email"
-      formControlName="email"
-      placeholder="Email"
-    />
-    <small
-      *ngIf="formControls['email'].touched && formControls['email'].invalid"
-    >
-      {{
-        formControls["email"].errors?.required ? "O email é obrigatório." : ""
-      }}
-      {{ formControls["email"].errors?.email ? "Insira um email válido." : "" }}
+    <input type="email" id="email" formControlName="email" placeholder="Email" />
+    <small *ngIf="formControls['email'].touched && formControls['email'].invalid">
+      {{ formControls["email"].errors?.['required'] ? "Email é obrigatório" : "" }}
+      {{ formControls["email"].errors?.['email'] ? "Email inválido" : "" }}
+      {{ formControls["email"].errors?.['maxlength'] ? "Email não pode exceder 100 caracteres" : "" }}
     </small>
 
     <div class="file-upload">

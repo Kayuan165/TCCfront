@@ -36,11 +36,10 @@ export class DataTableComponent<T extends { id: number }> implements OnChanges {
   }
 
   onSearch() {
-    if (this.searchTerm) {
+    if (!this.searchTerm.trim()) {
       this.filteredData = [...this.data];
       return;
     }
-
     const term = this.searchTerm.toLowerCase();
     this.filteredData = this.data.filter((item) =>
       this.columns.some((column) => {

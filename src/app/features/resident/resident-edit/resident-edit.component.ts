@@ -17,10 +17,12 @@ import {
 import { User } from '../../../shared/Interfaces/user.interface';
 import { UserService } from '../../../shared/services/user.service';
 import { ToastService } from '../../../shared/components/toast/toast.service';
+import { PhoneMaskDirective } from '../../../shared/components/directives/phone-mask.directive';
+import { NumbersOnlyDirective } from '../../../shared/components/directives/numbers.directive';
 
 @Component({
   selector: 'app-resident-edit',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, PhoneMaskDirective, NumbersOnlyDirective],
   templateUrl: './resident-edit.component.html',
   styleUrl: './resident-edit.component.scss',
   standalone: true,
@@ -46,9 +48,19 @@ export class ResidentEditComponent {
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      rg: ['', [Validators.required, Validators.pattern(/^\d{7,14}$/)]],
+      rg: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(7),
+          Validators.maxLength(14),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10,11}$/)]],
+      phone: [
+        '',
+        [Validators.required, Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/)],
+      ],
       address: ['', [Validators.required, Validators.minLength(5)]],
       photo: [null],
     });
@@ -58,6 +70,7 @@ export class ResidentEditComponent {
     if (this.resident) {
       this.form.patchValue(this.resident);
     }
+    console.log(this.resident);
   }
 
   get formControls() {

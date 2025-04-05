@@ -8,9 +8,9 @@ export class PhoneMaskDirective {
   constructor(private el: ElementRef) {}
 
   @HostListener('input', ['$event'])
-  onInputChange(event: InputEvent) {
-    const initialValue = this.el.nativeElement.value;
-    let numbers = initialValue.replace(/\D/g, '');
+  onInputChange(_: InputEvent) {
+    const input = this.el.nativeElement;
+    let numbers = input.value.replace(/\D/g, '');
 
     if (numbers.length > 11) {
       numbers = numbers.substring(0, 11);
@@ -21,16 +21,14 @@ export class PhoneMaskDirective {
       formatted = '(' + numbers.substring(0, 2);
     }
     if (numbers.length > 2) {
-      formatted += ') ' + numbers.substring(2, 7);
+      formatted += ') ' + numbers.substring(2, numbers.length > 10 ? 7 : 6);
     }
-    if (numbers.length > 7) {
-      formatted += '-' + numbers.substring(7, 11);
+    if (numbers.length > 6) {
+      formatted += '-' + numbers.substring(numbers.length > 10 ? 7 : 6);
     }
 
-    this.el.nativeElement.value = formatted;
+    input.value = formatted;
 
-    // Trigger ngModel update
-    const events = new Event('input', { bubbles: true });
-    this.el.nativeElement.dispatchEvent(event);
+    input.dispatchEvent(new Event('input', { bubbles: true }));
   }
 }

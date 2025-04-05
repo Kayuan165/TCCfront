@@ -17,11 +17,12 @@ import {
 import { User } from '../../../shared/Interfaces/user.interface';
 import { UserService } from '../../../shared/services/user.service';
 import { ToastService } from '../../../shared/components/toast/toast.service';
+import { NumbersOnlyDirective } from '../../../shared/components/directives/numbers.directive';
 
 @Component({
   selector: 'app-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NumbersOnlyDirective],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
 })
@@ -45,7 +46,14 @@ export class EditComponent {
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      rg: ['', [Validators.required, Validators.pattern(/^\d{7,14}$/)]],
+      rg: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(7),
+          Validators.maxLength(14),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
       photo: [null],
     });
