@@ -11,7 +11,6 @@ import { UserService } from '../../../shared/services/user.service';
 import { Resident } from '../../../shared/Interfaces/resident.interface';
 import { CommonModule } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
-import { NgIf } from '@angular/common';
 import { PhoneMaskDirective } from '../../../shared/components/directives/phone-mask.directive';
 
 @Component({
@@ -77,39 +76,6 @@ export class ResidentRegisterComponent {
     });
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      if (!file.type.startsWith('image/')) {
-        this.toast.toastService.showError(
-          'Por favor, selecione um arquivo de imagem válido!'
-        );
-        this.selectedFile = null;
-        this.registerForm.get('photo')?.setValue(null);
-        return;
-      }
-
-      if (file.size > 2 * 1024 * 1024) {
-        this.toast.toastService.showError(
-          'O tamanho da imagem não pode exceder 2MB'
-        );
-        this.selectedFile = null;
-        this.registerForm.get('photo')?.setValue(null);
-        return;
-      }
-
-      this.selectedFile = file;
-      this.registerForm.patchValue({ photo: file });
-      this.registerForm.get('photo')?.updateValueAndValidity();
-    } else {
-      this.selectedFile = null;
-      this.registerForm.patchValue({ photo: null });
-    }
-  }
-
   onSubmit(): void {
     if (this.registerForm.invalid || !this.selectedFile || this.isSubmitting) {
       this.registerForm.markAllAsTouched();
@@ -126,7 +92,6 @@ export class ResidentRegisterComponent {
       phone: this.registerForm.get('phone')?.value,
       address: this.registerForm.get('address')?.value.trim(),
       email: this.registerForm.get('email')?.value.trim(),
-      photo: this.selectedFile,
       type: 'resident',
     };
 
@@ -136,7 +101,6 @@ export class ResidentRegisterComponent {
     formData.append('phone', user.phone);
     formData.append('address', user.address);
     formData.append('email', user.email);
-    formData.append('photo', user.photo);
     formData.append('type', user.type);
 
     this.userService.register(formData).subscribe({

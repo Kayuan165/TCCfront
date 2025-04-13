@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  computed,
   EventEmitter,
   Input,
   Output,
@@ -22,7 +21,12 @@ import { NumbersOnlyDirective } from '../../../shared/components/directives/numb
 @Component({
   selector: 'app-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NumbersOnlyDirective],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NumbersOnlyDirective,
+  ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
 })
@@ -31,13 +35,7 @@ export class EditComponent {
   @Output() visitorUpdated = new EventEmitter<User>();
   @Output() closeModal = new EventEmitter<void>();
   form: FormGroup;
-  selectedFile = signal<File | null>(null);
   isSubmitting = signal(false);
-
-  fileName = computed(() => {
-    const file = this.selectedFile()
-    return file ? file.name : 'Nenhum arquivo selecionado'
-  })
 
   constructor(
     private fb: FormBuilder,
@@ -55,7 +53,6 @@ export class EditComponent {
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
-      photo: [null],
     });
   }
 
@@ -67,29 +64,6 @@ export class EditComponent {
 
   get formControls() {
     return this.form.controls as { [key: string]: any };
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      if (!file.type.startsWith('image/')) {
-        this.toastService.showError(
-          'Por favor, selecione um arquivo de imagem válido!'
-        );
-        return;
-      }
-      if (file.size > 2 * 1024 * 1024) {
-        this.toastService.showError('O tamanho da imagem não pode exceder 2MB');
-        return;
-      }
-
-      this.selectedFile.set(file);
-      this.form.patchValue({ photo: file.name });
-      this.form.markAsDirty();
-    }
   }
 
   updateVisitor() {
@@ -106,10 +80,6 @@ export class EditComponent {
         formData.append(key, String(value));
       }
     });
-
-    if (this.selectedFile instanceof File) {
-      formData.append('photo', this.selectedFile);
-    }
 
     this.isSubmitting.set(true);
     this.userService.update(this.visitor.id, formValues).subscribe({

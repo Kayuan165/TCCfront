@@ -34,7 +34,6 @@ export class ResidentListComponent {
   selectedResidentsId = signal<number | null>(null);
 
   columns = [
-    { header: 'Foto', field: 'photo' },
     { header: 'Nome', field: 'name' },
     { header: 'RG', field: 'rg' },
     { header: 'Email', field: 'email' },

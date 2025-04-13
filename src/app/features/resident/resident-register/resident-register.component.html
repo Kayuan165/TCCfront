@@ -118,24 +118,6 @@
         }
       </div>
 
-      <div class="form-group full-width">
-        <label for="photo">Foto para Identificação:</label>
-        <div class="file-upload">
-          <label for="photo">Escolher Foto</label>
-          <input
-            id="photo"
-            type="file"
-            accept="image/*"
-            (change)="onFileSelected($event)"
-          />
-          <span>{{ selectedFile?.name || "Nenhum arquivo selecionado" }}</span>
-        </div>
-        @if (registerForm.get('photo')?.invalid &&
-        registerForm.get('photo')?.touched) {
-        <small>Foto é obrigatória (máx. 2MB)</small>
-        }
-      </div>
-
       <button
         type="submit"
         class="primary-btn"

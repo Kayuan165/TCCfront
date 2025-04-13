@@ -11,7 +11,13 @@
     </small>
 
     <label for="rg">RG:</label>
-    <input type="text" id="rg" formControlName="rg" placeholder="RG" numbersOnly />
+    <input
+      type="text"
+      id="rg"
+      formControlName="rg"
+      placeholder="RG"
+      numbersOnly
+    />
     <small *ngIf="formControls['rg'].touched && formControls['rg'].invalid">
       {{ formControls["rg"].errors?.['required'] ? "RG é obrigatório" : "" }}
       {{ formControls["rg"].errors?.['minlength'] ? "RG deve ter pelo menos 8 dígitos" : "" }}
@@ -19,18 +25,19 @@
     </small>
 
     <label for="email">Email:</label>
-    <input type="email" id="email" formControlName="email" placeholder="Email" />
-    <small *ngIf="formControls['email'].touched && formControls['email'].invalid">
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      placeholder="Email"
+    />
+    <small
+      *ngIf="formControls['email'].touched && formControls['email'].invalid"
+    >
       {{ formControls["email"].errors?.['required'] ? "Email é obrigatório" : "" }}
       {{ formControls["email"].errors?.['email'] ? "Email inválido" : "" }}
       {{ formControls["email"].errors?.['maxlength'] ? "Email não pode exceder 100 caracteres" : "" }}
     </small>
-
-    <div class="file-upload">
-      <label for="file">Escolher Foto</label>
-      <input type="file" id="file" (change)="onFileSelected($event)" />
-      <span>{{fileName()}}</span>
-    </div>
 
     <button type="submit" [disabled]="form.invalid || isSubmitting()">
       {{ isSubmitting() ? "Salvando..." : "Salvar" }}

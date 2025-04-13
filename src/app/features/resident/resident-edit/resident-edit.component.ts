@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  Input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -22,7 +15,13 @@ import { NumbersOnlyDirective } from '../../../shared/components/directives/numb
 
 @Component({
   selector: 'app-resident-edit',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, PhoneMaskDirective, NumbersOnlyDirective],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PhoneMaskDirective,
+    NumbersOnlyDirective,
+  ],
   templateUrl: './resident-edit.component.html',
   styleUrl: './resident-edit.component.scss',
   standalone: true,
@@ -33,13 +32,7 @@ export class ResidentEditComponent {
   @Output() closeModal = new EventEmitter<void>();
 
   form: FormGroup;
-  selectedFile = signal<File | null>(null);
   isSubmitting = signal(false);
-
-  fileName = computed(() => {
-    const file = this.selectedFile();
-    return file ? file.name : 'Nenhum arquivo selecionado';
-  });
 
   constructor(
     private fb: FormBuilder,
@@ -62,7 +55,6 @@ export class ResidentEditComponent {
         [Validators.required, Validators.pattern(/^\(\d{2}\)\s\d{4,5}-\d{4}$/)],
       ],
       address: ['', [Validators.required, Validators.minLength(5)]],
-      photo: [null],
     });
   }
 
@@ -74,29 +66,6 @@ export class ResidentEditComponent {
 
   get formControls() {
     return this.form.controls as { [key: string]: any };
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      if (!file.type.startsWith('image/')) {
-        this.toastService.showError(
-          'Por favor, selecione um arquivo de imagem válido!'
-        );
-        return;
-      }
-      if (file.size > 2 * 1024 * 1024) {
-        this.toastService.showError('O tamanho da imagem não pode exceder 2MB');
-        return;
-      }
-
-      this.selectedFile.set(file);
-      this.form.patchValue({ photo: file.name });
-      this.form.markAsDirty();
-    }
   }
 
   updateResidents() {
@@ -113,10 +82,6 @@ export class ResidentEditComponent {
         formData.append(key, String(value));
       }
     });
-
-    if (this.selectedFile() instanceof File) {
-      formData.append('photo', this.selectedFile() as File);
-    }
 
     this.isSubmitting.set(true);
     this.userService.update(this.resident.id, formData).subscribe({

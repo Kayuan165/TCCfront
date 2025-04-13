@@ -32,7 +32,6 @@ export class RegisterComponent {
   user = {
     name: '',
     rg: '',
-    photo: null,
   };
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.registerForm = this.fb.group({
@@ -42,38 +41,9 @@ export class RegisterComponent {
         '',
         [Validators.required, Validators.minLength(10), Validators.email],
       ],
-      photo: [null, Validators.required],
     });
   }
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      if (!file.type.startsWith('image/')) {
-        this.toast.toastService.showError(
-          'Por favor, selecione um arquivo de imagem válido!'
-        );
-        this.selectedFile = null;
-        return;
-      }
-
-      if (file.size > 2 * 1024 * 1024) {
-        this.toast.toastService.showError(
-          'O tamanho da imagem não pode exceder 2MB'
-        );
-        return;
-      }
-
-      this.selectedFile = file;
-      this.registerForm.patchValue({ photo: file });
-    } else {
-      this.selectedFile = null;
-      this.registerForm.patchValue({ photo: null });
-    }
-  }
   onSubmit(): void {
     if (this.registerForm.valid && this.selectedFile) {
       const user: User = {
@@ -81,7 +51,6 @@ export class RegisterComponent {
         name: this.registerForm.get('name')?.value,
         rg: this.registerForm.get('rg')?.value,
         email: this.registerForm.get('email')?.value,
-        photo: this.selectedFile,
         type: 'visitor',
       };
 
@@ -89,7 +58,6 @@ export class RegisterComponent {
       formData.append('name', user.name);
       formData.append('rg', user.rg);
       formData.append('email', user.email);
-      formData.append('photo', user.photo);
       formData.append('type', user.type);
 
       this.userService.register(formData).subscribe(
