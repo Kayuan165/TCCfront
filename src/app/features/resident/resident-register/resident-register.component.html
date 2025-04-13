@@ -119,13 +119,27 @@
       </div>
 
       <button
-        type="submit"
+        type="button"
+        class="secondary-btn"
+        (click)="startTraining()"
+        [disabled]="registerForm.invalid || isTraining"
+      >
+        @if(isTraining){
+        <span class="spinner"></span>
+        Processando... }@else if(trainingComplete){
+        <i class="check-icon">✓</i> Treinamento Completo }@else { Cadastrar
+        Rosto }
+      </button>
+
+      <button
+        type="button"
         class="primary-btn"
-        [disabled]="registerForm.invalid || !selectedFile || isSubmitting"
+        (click)="onSubmit()"
+        [disabled]="registerForm.invalid || !trainingComplete || isSubmitting"
       >
         @if (isSubmitting) {
         <span class="spinner"></span>
-        } @else { Cadastrar }
+        } @else { Cadastrar Morador }
       </button>
     </form>
   </div>

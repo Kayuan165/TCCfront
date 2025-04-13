@@ -219,3 +219,41 @@ input[type="file"] {
     font-size: 0.9rem;
   }
 }
+
+.secondary-btn {
+  @extend .primary-btn;
+  background: #4a148c;
+
+  &:hover:not(:disabled) {
+    background: #38006b;
+  }
+}
+
+.check-icon {
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+button[disabled] {
+  &.secondary-btn {
+    background: #e0e0e0;
+    color: #9e9e9e;
+  }
+
+  &.primary-btn:not(.secondary-btn) {
+    background: #b39ddb;
+    cursor: not-allowed;
+  }
+}
+
+.form-container {
+  button {
+    margin-top: 15px;
+  }
+
+  .secondary-btn {
+    margin-top: 10px;
+  }
+}
+
+

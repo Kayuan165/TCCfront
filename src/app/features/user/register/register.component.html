@@ -6,7 +6,7 @@
   <div class="card">
     <h1>Cadastro de Visitantes</h1>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm">
       <div class="form-group">
         <label for="name">Nome:</label>
         <input
@@ -15,19 +15,13 @@
           formControlName="name"
           placeholder="Digite o nome completo"
         />
-        <div
-          *ngIf="
-            registerForm.get('name')?.invalid &&
-            registerForm.get('name')?.touched
-          "
-        >
-          <small *ngIf="registerForm.get('name')?.errors?.['required']"
-            >Nome é obrigatório</small
-          >
-          <small *ngIf="registerForm.get('name')?.errors?.['minlength']"
-            >Nome deve ter pelo menos 2 caracteres</small
-          >
-        </div>
+        @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+          <small>
+            @if (registerForm.get('name')?.errors?.['required']) { Nome é obrigatório }
+            @else if (registerForm.get('name')?.errors?.['minlength']) { Nome deve ter pelo menos 2 caracteres }
+            @else if (registerForm.get('name')?.errors?.['maxlength']) { Nome não pode exceder 100 caracteres }
+          </small>
+        }
       </div>
 
       <div class="form-group">
@@ -36,20 +30,17 @@
           id="rg"
           type="text"
           formControlName="rg"
-          placeholder="Digite o RG ou CPF"
+          placeholder="Digite o RG"
+          inputmode="numeric"
         />
-        <div
-          *ngIf="
-            registerForm.get('rg')?.invalid && registerForm.get('rg')?.touched
-          "
-        >
-          <small *ngIf="registerForm.get('rg')?.errors?.['required']"
-            >RG é obrigatório</small
-          >
-          <small *ngIf="registerForm.get('rg')?.errors?.['pattern']"
-            >RG deve conter apenas números</small
-          >
-        </div>
+        @if (registerForm.get('rg')?.invalid && registerForm.get('rg')?.touched) {
+          <small>
+            @if (registerForm.get('rg')?.errors?.['required']) { RG é obrigatório }
+            @else if (registerForm.get('rg')?.errors?.['pattern']) { RG deve conter apenas números }
+            @else if (registerForm.get('rg')?.errors?.['minlength']) { RG deve ter pelo menos 8 dígitos }
+            @else if (registerForm.get('rg')?.errors?.['maxlength']) { RG não pode exceder 12 dígitos }
+          </small>
+        }
       </div>
 
       <div class="form-group">
@@ -60,27 +51,42 @@
           formControlName="email"
           placeholder="Digite o email"
         />
-        <div
-          *ngIf="
-            registerForm.get('email')?.invalid &&
-            registerForm.get('email')?.touched
-          "
-        >
-          <small *ngIf="registerForm.get('email')?.errors?.['required']"
-            >Email é obrigatório</small
-          >
-          <small *ngIf="registerForm.get('email')?.errors?.['email']"
-            >Email inválido</small
-          >
-        </div>
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <small>
+            @if (registerForm.get('email')?.errors?.['required']) { Email é obrigatório }
+            @else if (registerForm.get('email')?.errors?.['email']) { Email inválido }
+            @else if (registerForm.get('email')?.errors?.['maxlength']) { Email não pode exceder 100 caracteres }
+          </small>
+        }
       </div>
 
       <button
-        type="submit"
-        class="primary-btn"
-        [disabled]="registerForm.invalid || !selectedFile"
+        type="button"
+        class="secondary-btn"
+        (click)="startTraining()"
+        [disabled]="registerForm.invalid || isTraining"
       >
-        Cadastrar
+        @if (isTraining) {
+          <span class="spinner"></span>
+          Processando...
+        } @else if (trainingComplete) {
+          <i class="check-icon">✓</i> Treinamento Completo
+        } @else {
+          Cadastrar Rosto
+        }
+      </button>
+
+      <button
+        type="button"
+        class="primary-btn"
+        (click)="onSubmit()"
+        [disabled]="registerForm.invalid || !trainingComplete || isSubmitting"
+      >
+        @if (isSubmitting) {
+          <span class="spinner"></span>
+        } @else {
+          Cadastrar Visitante
+        }
       </button>
     </form>
   </div>

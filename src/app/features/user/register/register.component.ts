@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../../shared/Interfaces/user.interface';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
+import { filter, lastValueFrom, take } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -27,56 +28,108 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
 export class RegisterComponent {
   @ViewChild(ToastComponent) toast!: ToastComponent;
   registerForm: FormGroup;
-  selectedFile: File | null = null;
+  isTraining = false;
+  isSubmitting = false;
+  trainingComplete = false;
 
-  user = {
-    name: '',
-    rg: '',
-  };
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      rg: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(100),
+        ],
+      ],
+      rg: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^\d+$/),
+          Validators.minLength(8),
+          Validators.maxLength(12),
+        ],
+      ],
       email: [
         '',
-        [Validators.required, Validators.minLength(10), Validators.email],
+        [Validators.required, Validators.email, Validators.maxLength(100)],
       ],
     });
   }
 
-  onSubmit(): void {
-    if (this.registerForm.valid && this.selectedFile) {
-      const user: User = {
-        id: this.registerForm.get('id')?.value,
-        name: this.registerForm.get('name')?.value,
-        rg: this.registerForm.get('rg')?.value,
-        email: this.registerForm.get('email')?.value,
-        type: 'visitor',
-      };
+  async startTraining(): Promise<void> {
+    if (this.registerForm.invalid) {
+      if (this.registerForm.get('rg')?.invalid) {
+        this.toast.toastService.showInfo('RG inválido ou incompleto!');
+        return;
+      } else {
+        this.toast.toastService.showInfo(
+          'Preencha todos os campos corretamente!'
+        );
+        return;
+      }
+    }
 
-      const formData = new FormData();
-      formData.append('name', user.name);
-      formData.append('rg', user.rg);
-      formData.append('email', user.email);
-      formData.append('type', user.type);
+    this.isTraining = true;
+    const rg = this.registerForm.get('rg')?.value;
 
-      this.userService.register(formData).subscribe(
-        () => {
-          this.toast.toastService.showSucess(
-            'Visitante cadastrado com sucesso!'
-          );
+    try {
+      await lastValueFrom(this.userService.startFaceTraining(rg));
+      this.toast.toastService.showSucess('Treinamento iniciado com sucesso!');
 
-          this.registerForm.reset();
-        },
-        (error) => {
-          this.toast.toastService.showError(
-            'Erro ao cadastrar visitante. Valide as informações'
-          );
-          console.error(error);
-        }
+      await lastValueFrom(
+        this.userService.pollTrainingStatus(rg).pipe(
+          filter((ready) => ready),
+          take(1)
+        )
       );
-    } else {
-      this.toast.toastService.showInfo('Preencha todos os campos corretamente');
+
+      this.trainingComplete = true;
+      this.toast.toastService.showSucess('Treinamento concluído com sucesso!');
+    } catch (error) {
+      this.toast.toastService.showError(
+        'Erro ao iniciar o treinamento facial!'
+      );
+    } finally {
+      this.isTraining = false;
+    }
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.registerForm.invalid || this.isSubmitting) {
+      this.registerForm.markAllAsTouched();
+      this.toast.toastService.showInfo(
+        'Preencha todos os campos corretamente!'
+      );
+      return;
+    }
+
+    if (!this.trainingComplete) {
+      this.toast.toastService.showInfo('Treinamento não concluído!');
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    const user = {
+      id: this.registerForm.get('id')?.value,
+      name: this.registerForm.get('name')?.value,
+      rg: this.registerForm.get('rg')?.value,
+      email: this.registerForm.get('email')?.value,
+      type: 'visitor',
+    };
+
+    try {
+      await lastValueFrom(this.userService.completeRegistration(user));
+      this.toast.toastService.showSucess('Visitante cadastrado com sucesso!');
+      this.registerForm.reset();
+      this.trainingComplete = false;
+    } catch (error) {
+      this.toast.toastService.showError('Erro ao cadastrar visitante ');
+      console.error(error);
+    } finally {
+      this.isSubmitting = false;
     }
   }
 }

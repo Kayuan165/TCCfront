@@ -12,6 +12,7 @@ import { Resident } from '../../../shared/Interfaces/resident.interface';
 import { CommonModule } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { PhoneMaskDirective } from '../../../shared/components/directives/phone-mask.directive';
+import { filter, lastValueFrom, take } from 'rxjs';
 
 @Component({
   selector: 'app-resident-register',
@@ -30,8 +31,9 @@ import { PhoneMaskDirective } from '../../../shared/components/directives/phone-
 export class ResidentRegisterComponent {
   @ViewChild(ToastComponent) toast!: ToastComponent;
   registerForm: FormGroup;
-  selectedFile: File | null = null;
   isSubmitting = false;
+  isTraining = false;
+  trainingComplete = false;
 
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.registerForm = this.fb.group({
@@ -72,14 +74,58 @@ export class ResidentRegisterComponent {
           Validators.maxLength(200),
         ],
       ],
-      photo: [null, Validators.required],
     });
   }
 
-  onSubmit(): void {
-    if (this.registerForm.invalid || !this.selectedFile || this.isSubmitting) {
+  async startTraining(): Promise<void> {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+
+      if (this.registerForm.get('rg')?.invalid) {
+        this.toast.toastService.showInfo('Preencha o campo RG corretamente');
+        return;
+      } else {
+        this.toast.toastService.showInfo(
+          'Preencha todos os campos corretamente'
+        );
+        return;
+      }
+    }
+
+    this.isTraining = true;
+    const rg = this.registerForm.get('rg')?.value;
+
+    try {
+      await lastValueFrom(this.userService.startFaceTraining(rg));
+      this.toast.toastService.showSucess('Treinamento iniciado com sucesso!');
+
+      await lastValueFrom(
+        this.userService.pollTrainingStatus(rg).pipe(
+          filter((ready) => ready),
+          take(1)
+        )
+      );
+
+      this.trainingComplete = true;
+      this.toast.toastService.showSucess('Treinamento concluído com sucesso!');
+    } catch (error) {
+      this.toast.toastService.showError(
+        'Erro ao iniciar o treinamento facial!'
+      );
+    } finally {
+      this.isTraining = false;
+    }
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.registerForm.invalid || this.isSubmitting) {
       this.registerForm.markAllAsTouched();
       this.toast.toastService.showInfo('Preencha todos os campos corretamente');
+      return;
+    }
+
+    if (!this.trainingComplete) {
+      this.toast.toastService.showInfo('Treinamento não concluído!');
       return;
     }
 
@@ -95,28 +141,16 @@ export class ResidentRegisterComponent {
       type: 'resident',
     };
 
-    const formData = new FormData();
-    formData.append('name', user.name);
-    formData.append('rg', user.rg);
-    formData.append('phone', user.phone);
-    formData.append('address', user.address);
-    formData.append('email', user.email);
-    formData.append('type', user.type);
-
-    this.userService.register(formData).subscribe({
-      next: () => {
-        this.toast.toastService.showSucess('Morador cadastrado com sucesso!');
-        this.registerForm.reset();
-        this.selectedFile = null;
-        this.isSubmitting = false;
-      },
-      error: (error) => {
-        this.toast.toastService.showError(
-          'Erro ao cadastrar morador. Valide as informações'
-        );
-        console.error(error);
-        this.isSubmitting = false;
-      },
-    });
+    try {
+      await lastValueFrom(this.userService.completeRegistration(user));
+      this.toast.toastService.showSucess('Morador cadastrado com sucesso!');
+      this.registerForm.reset();
+      this.trainingComplete = false;
+    } catch (error) {
+      this.toast.toastService.showError('Erro ao cadastrar morador!');
+      console.error(error);
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 }
