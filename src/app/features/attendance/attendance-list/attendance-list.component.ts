@@ -30,8 +30,8 @@ export class AttendanceListComponent {
   column = [
     { header: 'Nome', field: 'user.name' },
     { header: 'RG', field: 'user.rg' },
-    { header: 'Data de Entrada', field: 'entryTime' },
-    { header: 'Data de Saída', field: 'exitTime' },
+    { header: 'Data de Entrada', field: 'formattedEntryTime' },
+    { header: 'Data de Saída', field: 'formattedExitTime' },
     { header: 'Tipo', field: 'user.type' },
   ];
 
@@ -46,7 +46,7 @@ export class AttendanceListComponent {
       .subscribe({
         next: (data) => this.attendances.set(data),
         error: () =>
-          this.toatstService.showError('Erro ao carregar atendimentos'),
+          this.toatstService.showError('Erro ao carregar entradas e saídas!'),
       });
   }
 }

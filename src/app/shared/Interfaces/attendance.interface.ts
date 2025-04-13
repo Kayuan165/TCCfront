@@ -3,6 +3,8 @@ export interface Attendance {
   entryTime: string;
   exitTime: string;
   createAt: string;
+  formattedEntryTime?: string;
+  formattedExitTime?: string;
   user: {
     id: number;
     name: string;
