@@ -4,10 +4,10 @@
 
     <label for="name">Nome:</label>
     <input type="text" id="name" formControlName="name" placeholder="Nome" />
-    <small *ngIf="formControls['name'].touched && formControls['name'].invalid">
-      {{ formControls["name"].errors?.['required'] ? "Nome é obrigatório" : "" }}
-      {{ formControls["name"].errors?.['minlength'] ? "Nome deve ter pelo menos 2 caracteres" : "" }}
-      {{ formControls["name"].errors?.['maxlength'] ? "Nome não pode exceder 100 caracteres" : "" }}
+    <small *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+      {{ form.get('name')?.errors?.['required'] ? "Nome é obrigatório" : "" }}
+      {{ form.get('name')?.errors?.['minlength'] ? "Nome deve ter pelo menos 2 caracteres" : "" }}
+      {{ form.get('name')?.errors?.['maxlength'] ? "Nome não pode exceder 100 caracteres" : "" }}
     </small>
 
     <label for="rg">RG:</label>
@@ -18,10 +18,10 @@
       placeholder="RG"
       numbersOnly
     />
-    <small *ngIf="formControls['rg'].touched && formControls['rg'].invalid">
-      {{ formControls["rg"].errors?.['required'] ? "RG é obrigatório" : "" }}
-      {{ formControls["rg"].errors?.['minlength'] ? "RG deve ter pelo menos 8 dígitos" : "" }}
-      {{ formControls["rg"].errors?.['maxlength'] ? "RG não pode exceder 12 dígitos" : "" }}
+    <small *ngIf="form.get('rg')?.touched && form.get('rg')?.invalid">
+      {{ form.get('rg')?.errors?.['required'] ? "RG é obrigatório" : "" }}
+      {{ form.get('rg')?.errors?.['minlength'] ? "RG deve ter pelo menos 8 dígitos" : "" }}
+      {{ form.get('rg')?.errors?.['maxlength'] ? "RG não pode exceder 12 dígitos" : "" }}
     </small>
 
     <label for="email">Email:</label>
@@ -31,12 +31,10 @@
       formControlName="email"
       placeholder="Email"
     />
-    <small
-      *ngIf="formControls['email'].touched && formControls['email'].invalid"
-    >
-      {{ formControls["email"].errors?.['required'] ? "Email é obrigatório" : "" }}
-      {{ formControls["email"].errors?.['email'] ? "Email inválido" : "" }}
-      {{ formControls["email"].errors?.['maxlength'] ? "Email não pode exceder 100 caracteres" : "" }}
+    <small *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+      {{ form.get('email')?.errors?.['required'] ? "Email é obrigatório" : "" }}
+      {{ form.get('email')?.errors?.['email'] ? "Email inválido" : "" }}
+      {{ form.get('email')?.errors?.['maxlength'] ? "Email não pode exceder 100 caracteres" : "" }}
     </small>
 
     <label for="phone">Telefone:</label>
@@ -47,10 +45,8 @@
       placeholder="Telefone"
       appPhoneMask
     />
-    <small
-      *ngIf="formControls['phone'].touched && formControls['phone'].invalid"
-    >
-      {{ formControls["phone"].errors?.['required'] ? "Telefone é obrigatório" : "Telefone inválido (formato: (00) 00000-0000)" }}
+    <small *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">
+      {{ form.get('phone')?.errors?.['required'] ? "Telefone é obrigatório" : "Telefone inválido (formato: (00) 00000-0000)" }}
     </small>
 
     <label for="address">Endereço:</label>
@@ -60,16 +56,38 @@
       formControlName="address"
       placeholder="Endereço"
     />
-    <small
-      *ngIf="formControls['address'].touched && formControls['address'].invalid"
-    >
-      {{ formControls["address"].errors?.['required'] ? "Endereço é obrigatório" : "" }}
-      {{ formControls["address"].errors?.['minlength'] ? "Endereço deve ter pelo menos 5 caracteres" : "" }}
-      {{ formControls["address"].errors?.['maxlength'] ? "Endereço não pode exceder 200 caracteres" : "" }}
+    <small *ngIf="form.get('address')?.touched && form.get('address')?.invalid">
+      {{ form.get('address')?.errors?.['required'] ? "Endereço é obrigatório" : "" }}
+      {{ form.get('address')?.errors?.['minlength'] ? "Endereço deve ter pelo menos 5 caracteres" : "" }}
+      {{ form.get('address')?.errors?.['maxlength'] ? "Endereço não pode exceder 200 caracteres" : "" }}
     </small>
 
-    <button type="submit" [disabled]="form.invalid || isSubmitting()">
-      {{ isSubmitting() ? "Salvando..." : "Salvar" }}
+    <button
+      type="button"
+      class="secondary-btn"
+      (click)="startFaceTraining()"
+      [disabled]="isTraining || form.get('rg')?.value === originalRg"
+      *ngIf="form.get('rg')?.value !== originalRg"
+    >
+      @if (isTraining) {
+      <span class="spinner"></span>
+      Processando... } @else if (trainingComplete) {
+      <i class="check-icon">✓</i> Treinamento Completo } @else { Cadastrar Rosto
+      }
+    </button>
+
+    <button
+      type="submit"
+      class="primary-btn"
+      [disabled]="
+        form.invalid ||
+        isSubmitting ||
+        (form.get('rg')?.value !== originalRg && !trainingComplete)
+      "
+    >
+      @if (isSubmitting) {
+      <span class="spinner"></span>
+      } Salvar Alterações
     </button>
   </form>
 </div>

@@ -29,7 +29,8 @@
     transition: all 0.3s;
 
     &:hover {
-      background: darken(#e63946, 10%);
+
+      background: color-mix(in srgb, #e63946, black 10%);
       transform: scale(1.05);
     }
   }
@@ -45,7 +46,7 @@
     transition: all 0.3s;
 
     &:hover {
-      background: darken(#6e00b8, 10%);
+      background: color-mix(in srgb, #6e00b8, black 10%);
       transform: scale(1.05);
     }
   }
