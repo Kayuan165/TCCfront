@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   catchError,
@@ -7,6 +7,7 @@ import {
   Observable,
   switchMap,
   takeWhile,
+  throwError,
 } from 'rxjs';
 import { User } from '../Interfaces/user.interface';
 import { error } from 'console';
@@ -25,16 +26,19 @@ export class UserService {
     rg: string
   ): Observable<{ trainingId: number; status: string }> {
     return this.http
-      .post<{ trainingId: number; status: string }>(
-        `${this.apiUrl}/init-training`,
-        { rg }
-      )
+      .post<{
+        trainingId: number;
+        status: string;
+        message?: string;
+      }>(`${this.apiUrl}/init-training`, { rg })
       .pipe(
-        catchError((error) => {
-          throw this.handleError(
-            error,
-            'Erro ao iniciar o treinamento facial!'
-          );
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage =
+            error.error?.message ||
+            error.error?.details?.internalError ||
+            error.message ||
+            'Erro desconhecido ao iniciar treinamento';
+          return throwError(() => new Error(errorMessage));
         })
       );
   }
@@ -51,13 +55,16 @@ export class UserService {
   pollTrainingStatus(rg: string, intervalMs = 2000): Observable<boolean> {
     return interval(intervalMs).pipe(
       switchMap(() => this.checkTrainingStatus(rg)),
-      map((response) => response.ready),
-      takeWhile((ready) => !ready, true), // continua até ready=true
+      map((response) => {
+        if (response.status === 'failed') {
+          throw new Error('O treinamento falhou');
+        }
+        return response.ready;
+      }),
+      takeWhile((ready) => !ready, true), // inclui o último valor (true)
       catchError((error) => {
-        throw this.handleError(
-          error,
-          'Erro ao verificar status do treinamento'
-        );
+        console.error('Erro no pooling:', error);
+        return throwError(() => new Error(error.message));
       })
     );
   }
